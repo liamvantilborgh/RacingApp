@@ -1,3 +1,21 @@
+.vs/RacingApp/config/applicationhost.config
+.vs/RacingApp/config/applicationhost.config
+.vs/RacingApp/DesignTimeBuild/.dtbcache.v2
+.vs/RacingApp/v16/.suo
+RacingApp.API/obj/Debug/net5.0/Prega.API.assets.cache
+RacingApp.API/obj/Debug/net5.0/Prega.API.Views.dll
+RacingApp.API/obj/Debug/net5.0/project.razor.json
+RacingApp.API/obj/project.assets.json
+RacingApp.API/appsettings.Development.json
+RacingApp.BLL/obj/Debug/net5.0/Prega.BLL.assets.cache
+RacingApp.BLL/obj/project.assets.json
+RacingApp.DAL/obj/Debug/net5.0/Prega.DAL.assets.cache
+RacingApp.DAL/obj/project.assets.json
+RacingApp.WebUI/obj/project.assets.json
+RacingApp.API/obj/*
+RacingApp.BLL/obj/*
+RacingApp.DAL/obj/*
+RacingApp.WebUI/obj/*
 # Compiled class file
 *.class
 
@@ -18,6 +36,19 @@
 *.zip
 *.tar.gz
 *.rar
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+msbuild.log
+msbuild.err
+msbuild.wrn
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
