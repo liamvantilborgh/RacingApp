@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RacingApp.BLL;
+using RacingApp.Core.DTO_S;
 using RacingApp.DAL.Data;
 using RacingApp.DAL.Entities;
 
@@ -23,9 +24,40 @@ namespace RacingApp.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Country> GetAllCountries()
+        public IEnumerable<CountryDTO> GetAll()
         {
-            return _countryService.GetAllCountries();
+            return _countryService.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        // GET: countries/5
+        public CountryDTO GetById(int id)
+        {
+            return _countryService.GetById(id);
+        }
+
+        [HttpPost("add")]
+        //POST: countries/add
+        public IActionResult AddRole(CountryDTO country)
+        {
+            _countryService.Add(country);
+            return Ok(country);
+        }
+
+        [HttpPost("update/{id}")]
+        //POST: countries/update/5
+        public IActionResult Update(int id, CountryDTO country)
+        {
+            _countryService.Update(id, country);
+            return Ok(country);
+        }
+      
+        [HttpPost("delete/{id}")]
+        // POST: countries/delete/5
+        public IActionResult Delete(int id)
+        {
+            _countryService.Delete(id);
+            return Ok(id);
         }
     }
 }

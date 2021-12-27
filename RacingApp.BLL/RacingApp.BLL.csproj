@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RacingApp.Core\RacingApp.Core.csproj" />
     <ProjectReference Include="..\RacingApp.DAL\RacingApp.DAL.csproj" />
   </ItemGroup>
 
