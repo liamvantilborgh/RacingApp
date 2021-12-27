@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RacingApp.DAL.Data;
 
 namespace RacingApp.DAL.Migrations
 {
     [DbContext(typeof(RacingAppContext))]
-    partial class RacingAppContextModelSnapshot : ModelSnapshot
+    [Migration("20211227135906_circuitstest")]
+    partial class circuitstest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

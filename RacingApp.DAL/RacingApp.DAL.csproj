@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Circuits\Create.cshtml" />
+    <None Remove="Views\Circuits\Delete.cshtml" />
+    <None Remove="Views\Circuits\Details.cshtml" />
+    <None Remove="Views\Circuits\Edit.cshtml" />
+    <None Remove="Views\Circuits\Index.cshtml" />
     <None Remove="Views\Countries\Create.cshtml" />
     <None Remove="Views\Countries\Delete.cshtml" />
     <None Remove="Views\Countries\Details.cshtml" />
@@ -14,6 +19,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Views\Circuits\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Circuits\Delete.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Circuits\Details.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Circuits\Edit.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Circuits\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="Views\Countries\Create.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

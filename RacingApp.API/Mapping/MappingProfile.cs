@@ -13,7 +13,9 @@ namespace RacingApp.API.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Country, CountryDTO>().ReverseMap();
+            CreateMap<Country, CountryDTO>().ForMember(c => c.Circuits, option => option.Ignore()).ReverseMap();
+            //CreateMap<Circuits, CircuitsDTO>().ForMember(c => c.Country, option => option.MapFrom(src => src.Country)).ReverseMap();
+            CreateMap<Circuits, CircuitsDTO>().ReverseMap();
         }
     }
 }

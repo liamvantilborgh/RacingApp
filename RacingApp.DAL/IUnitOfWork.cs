@@ -10,6 +10,7 @@ namespace RacingApp.DAL
     public interface IUnitOfWork : IDisposable
     {
        ICountryRepository Countries { get; }
+       ICircuitsRepository Circuits { get; }
        int CommitAsync();
     }
 }

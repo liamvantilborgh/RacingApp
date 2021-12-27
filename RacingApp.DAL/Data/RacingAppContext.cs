@@ -15,5 +15,6 @@ namespace RacingApp.DAL.Data
         }
 
         public DbSet<Country> Country { get; set; }
+        public DbSet<Circuits> Circuits { get; set; }
     }
 }

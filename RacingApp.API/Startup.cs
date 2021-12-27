@@ -37,9 +37,13 @@ namespace RacingApp.API
             services.AddTransient<CountryService>();
             services.AddScoped<CountryRepository>();
 
+            //Circuits
+            services.AddTransient<CircuitsService>();
+            services.AddScoped<CircuitsRepository>();
+
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddControllers();
+            services.AddControllersWithViews();
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
