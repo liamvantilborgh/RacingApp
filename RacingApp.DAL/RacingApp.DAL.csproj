@@ -15,6 +15,11 @@
     <None Remove="Views\Countries\Details.cshtml" />
     <None Remove="Views\Countries\Edit.cshtml" />
     <None Remove="Views\Countries\Index.cshtml" />
+    <None Remove="Views\Seasons\Create.cshtml" />
+    <None Remove="Views\Seasons\Delete.cshtml" />
+    <None Remove="Views\Seasons\Details.cshtml" />
+    <None Remove="Views\Seasons\Edit.cshtml" />
+    <None Remove="Views\Seasons\Index.cshtml" />
     <None Remove="Views\Series\Create.cshtml" />
     <None Remove="Views\Series\Delete.cshtml" />
     <None Remove="Views\Series\Details.cshtml" />
@@ -61,6 +66,26 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="Views\Countries\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Seasons\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Seasons\Delete.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Seasons\Details.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Seasons\Edit.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Seasons\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

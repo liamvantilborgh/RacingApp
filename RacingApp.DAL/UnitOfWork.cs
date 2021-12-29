@@ -14,6 +14,7 @@ namespace RacingApp.DAL
         private CountryRepository _countryRepository;
         private CircuitsRepository _circuitsRepository;
         private SeriesRepository _seriesRepository;
+        private SeasonsRepository _seasonsRepository;
         public UnitOfWork(RacingAppContext context)
         {
             this.context = context;
@@ -21,6 +22,7 @@ namespace RacingApp.DAL
         public ICountryRepository Countries => _countryRepository ??= new CountryRepository(context);
         public ICircuitsRepository Circuits => _circuitsRepository ??= new CircuitsRepository(context);
         public ISeriesRepository Series => _seriesRepository ??= new SeriesRepository(context);
+        public ISeasonsRepository Seasons => _seasonsRepository ??= new SeasonsRepository(context);
 
         public int CommitAsync()
         {

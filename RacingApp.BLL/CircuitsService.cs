@@ -52,7 +52,7 @@ namespace RacingApp.BLL
 
         public void Add(CircuitsDTO circuit)
         {
-            if (circuit.Name != null)
+            if (circuit.CountryId != 0 && circuit.Name != null && circuit.Length_Circuit > 0 && circuit.House_Number > 0 && circuit.City != null && circuit.Postal_Code > 0)
             {
                 var circuitToAdd = _mapper.Map<CircuitsDTO, Circuits>(circuit);
                 _unitOfWork.Circuits.Add(circuitToAdd);
@@ -70,21 +70,24 @@ namespace RacingApp.BLL
             {
                 throw new Exception($"Circuit with id: {id} could not be found.");
             }
-            //else if (person.FirstName != null || person.Name != null || person.RoleId > 0 || person.S_P_Number != null)
-            //{
-            //    throw new Exception($"Person{person.FirstName} + {person.Name}{person.S_P_Number} data is not valid.");
-            //}
             else
             {
-                CircuitToUpdate.CountryId = circuit.CountryId;
-                CircuitToUpdate.Name = circuit.Name;
-                CircuitToUpdate.Length_Circuit = circuit.Length_Circuit;
-                CircuitToUpdate.Street_Name = circuit.Street_Name;
-                CircuitToUpdate.House_Number = circuit.House_Number;
-                CircuitToUpdate.City = circuit.City;
-                CircuitToUpdate.Postal_Code = circuit.Postal_Code;
-                _unitOfWork.Circuits.Update(CircuitToUpdate);
-                _unitOfWork.CommitAsync();
+                if(circuit.CountryId != 0 && circuit.Name != null && circuit.Length_Circuit > 0 && circuit.House_Number > 0 && circuit.City != null && circuit.Postal_Code > 0)
+                {
+                    CircuitToUpdate.CountryId = circuit.CountryId;
+                    CircuitToUpdate.Name = circuit.Name;
+                    CircuitToUpdate.Length_Circuit = circuit.Length_Circuit;
+                    CircuitToUpdate.Street_Name = circuit.Street_Name;
+                    CircuitToUpdate.House_Number = circuit.House_Number;
+                    CircuitToUpdate.City = circuit.City;
+                    CircuitToUpdate.Postal_Code = circuit.Postal_Code;
+                    _unitOfWork.Circuits.Update(CircuitToUpdate);
+                    _unitOfWork.CommitAsync();
+                }
+                else
+                {
+                    throw new Exception($"Circuit data is not valid.");
+                }
             }
 
         }

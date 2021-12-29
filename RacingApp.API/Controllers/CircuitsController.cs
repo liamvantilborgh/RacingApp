@@ -52,7 +52,7 @@ namespace RacingApp.API.Controllers
         }
 
         [HttpPost("update/{id}")]
-        public IActionResult UpdatePerson(int id, CircuitsDTO circuit)
+        public IActionResult Update(int id, CircuitsDTO circuit)
         {
             _circuitsService.Update(id, circuit);
             return Ok(circuit);

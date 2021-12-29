@@ -12,6 +12,7 @@ namespace RacingApp.DAL
        ICountryRepository Countries { get; }
        ICircuitsRepository Circuits { get; }
        ISeriesRepository Series { get; }
+       ISeasonsRepository Seasons { get; }
        int CommitAsync();
     }
 }
