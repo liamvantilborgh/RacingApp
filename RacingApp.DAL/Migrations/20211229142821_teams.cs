@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RacingApp.DAL.Migrations
 {
-    public partial class series : Migration
+    public partial class teams : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,6 +35,19 @@ namespace RacingApp.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Series", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Teams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teams", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -102,6 +115,9 @@ namespace RacingApp.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Seasons");
+
+            migrationBuilder.DropTable(
+                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "Country");

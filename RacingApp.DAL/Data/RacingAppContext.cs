@@ -18,5 +18,6 @@ namespace RacingApp.DAL.Data
         public DbSet<Circuits> Circuits { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<Seasons> Seasons { get; set; }
+        public DbSet<Teams> Teams { get; set; }
     }
 }

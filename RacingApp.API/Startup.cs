@@ -49,6 +49,9 @@ namespace RacingApp.API
             services.AddTransient<SeasonsService>();
             //services.AddScoped<SeriesRepository>();
 
+            //Teams
+            services.AddTransient<TeamsService>();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddControllersWithViews();

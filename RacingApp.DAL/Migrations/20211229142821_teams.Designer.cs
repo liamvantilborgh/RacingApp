@@ -10,8 +10,8 @@ using RacingApp.DAL.Data;
 namespace RacingApp.DAL.Migrations
 {
     [DbContext(typeof(RacingAppContext))]
-    [Migration("20211229121340_series")]
-    partial class series
+    [Migration("20211229142821_teams")]
+    partial class teams
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -122,6 +122,21 @@ namespace RacingApp.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Series");
+                });
+
+            modelBuilder.Entity("RacingApp.DAL.Entities.Teams", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("RacingApp.DAL.Entities.Circuits", b =>

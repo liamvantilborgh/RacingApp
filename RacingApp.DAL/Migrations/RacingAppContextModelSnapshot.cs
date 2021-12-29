@@ -122,6 +122,21 @@ namespace RacingApp.DAL.Migrations
                     b.ToTable("Series");
                 });
 
+            modelBuilder.Entity("RacingApp.DAL.Entities.Teams", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
+                });
+
             modelBuilder.Entity("RacingApp.DAL.Entities.Circuits", b =>
                 {
                     b.HasOne("RacingApp.DAL.Entities.Country", "Country")
