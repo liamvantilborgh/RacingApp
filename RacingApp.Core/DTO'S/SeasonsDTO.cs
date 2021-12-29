@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace RacingApp.DAL.Entities
+namespace RacingApp.Core.DTO_S
 {
-    public class Seasons
+    public class SeasonsDTO
     {
         public int Id { get; set; }
-        public Series Series { get; set; }
+        public SeriesDTO Series { get; set; }
         public int SeriesId { get; set; }
         public string Name { get; set; }
         public DateTime Startdate { get; set; }

@@ -15,6 +15,11 @@
     <None Remove="Views\Countries\Details.cshtml" />
     <None Remove="Views\Countries\Edit.cshtml" />
     <None Remove="Views\Countries\Index.cshtml" />
+    <None Remove="Views\Series\Create.cshtml" />
+    <None Remove="Views\Series\Delete.cshtml" />
+    <None Remove="Views\Series\Details.cshtml" />
+    <None Remove="Views\Series\Edit.cshtml" />
+    <None Remove="Views\Series\Index.cshtml" />
     <None Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
   </ItemGroup>
 
@@ -56,6 +61,26 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="Views\Countries\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Series\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Series\Delete.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Series\Details.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Series\Edit.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Series\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

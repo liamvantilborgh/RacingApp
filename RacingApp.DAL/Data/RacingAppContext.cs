@@ -16,5 +16,7 @@ namespace RacingApp.DAL.Data
 
         public DbSet<Country> Country { get; set; }
         public DbSet<Circuits> Circuits { get; set; }
+        public DbSet<Series> Series { get; set; }
+        public DbSet<Seasons> Seasons { get; set; }
     }
 }

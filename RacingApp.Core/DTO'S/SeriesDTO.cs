@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace RacingApp.DAL.Entities
+namespace RacingApp.Core.DTO_S
 {
-    public class Series
+    public class SeriesDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -14,10 +14,6 @@ namespace RacingApp.DAL.Entities
         public int Sort_Order { get; set; }
         public DateTime Startdate { get; set; }
         public DateTime Enddate { get; set; }
-        public ICollection<Seasons> Seasons { get; set; }
-        public Series()
-        {
-            Seasons = new Collection<Seasons>();
-        }
+        public List<SeasonsDTO> Seasons { get; set; }
     }
 }

@@ -41,6 +41,10 @@ namespace RacingApp.API
             services.AddTransient<CircuitsService>();
             services.AddScoped<CircuitsRepository>();
 
+            //Country
+            services.AddTransient<SeriesService>();
+            services.AddScoped<SeriesRepository>();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddControllersWithViews();

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using RacingApp.BLL;
 using RacingApp.Core.DTO_S;
-using RacingApp.DAL.Data;
-using RacingApp.DAL.Entities;
 
 namespace RacingApp.API.Controllers
 {
@@ -38,7 +31,7 @@ namespace RacingApp.API.Controllers
 
         [HttpPost("add")]
         //POST: countries/add
-        public IActionResult AddRole(CountryDTO country)
+        public IActionResult Add(CountryDTO country)
         {
             _countryService.Add(country);
             return Ok(country);

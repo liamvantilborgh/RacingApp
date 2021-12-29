@@ -60,9 +60,32 @@ namespace RacingApp.BLL
             }
             else
             {
-                throw new Exception("Country data is not valid.");
+                throw new Exception("Circuit data is not valid.");
             }
-
+        }
+        public void Update(int id, CircuitsDTO circuit)
+        {
+            var CircuitToUpdate = _unitOfWork.Circuits.GetById(id);
+            if (CircuitToUpdate == null)
+            {
+                throw new Exception($"Circuit with id: {id} could not be found.");
+            }
+            //else if (person.FirstName != null || person.Name != null || person.RoleId > 0 || person.S_P_Number != null)
+            //{
+            //    throw new Exception($"Person{person.FirstName} + {person.Name}{person.S_P_Number} data is not valid.");
+            //}
+            else
+            {
+                CircuitToUpdate.CountryId = circuit.CountryId;
+                CircuitToUpdate.Name = circuit.Name;
+                CircuitToUpdate.Length_Circuit = circuit.Length_Circuit;
+                CircuitToUpdate.Street_Name = circuit.Street_Name;
+                CircuitToUpdate.House_Number = circuit.House_Number;
+                CircuitToUpdate.City = circuit.City;
+                CircuitToUpdate.Postal_Code = circuit.Postal_Code;
+                _unitOfWork.Circuits.Update(CircuitToUpdate);
+                _unitOfWork.CommitAsync();
+            }
 
         }
     }
