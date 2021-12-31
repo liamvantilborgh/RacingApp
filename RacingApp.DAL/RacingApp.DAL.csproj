@@ -15,6 +15,11 @@
     <None Remove="Views\Countries\Details.cshtml" />
     <None Remove="Views\Countries\Edit.cshtml" />
     <None Remove="Views\Countries\Index.cshtml" />
+    <None Remove="Views\Pilots\Create.cshtml" />
+    <None Remove="Views\Pilots\Delete.cshtml" />
+    <None Remove="Views\Pilots\Details.cshtml" />
+    <None Remove="Views\Pilots\Edit.cshtml" />
+    <None Remove="Views\Pilots\Index.cshtml" />
     <None Remove="Views\Races\Create.cshtml" />
     <None Remove="Views\Races\Delete.cshtml" />
     <None Remove="Views\Races\Details.cshtml" />
@@ -76,6 +81,26 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="Views\Countries\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Pilots\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Pilots\Delete.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Pilots\Details.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Pilots\Edit.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Pilots\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

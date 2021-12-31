@@ -15,6 +15,7 @@ namespace RacingApp.DAL
        ISeasonsRepository Seasons { get; }
        IRacesRepository Races { get; }
        ITeamsRepository Teams { get; }
+       IPilotsRepository Pilots { get; }
        int CommitAsync();
     }
 }
