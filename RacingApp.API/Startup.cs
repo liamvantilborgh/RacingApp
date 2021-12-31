@@ -49,6 +49,9 @@ namespace RacingApp.API
             services.AddTransient<SeasonsService>();
             //services.AddScoped<SeriesRepository>();
 
+            //Races
+            services.AddTransient<RacesService>();
+
             //Teams
             services.AddTransient<TeamsService>();
 

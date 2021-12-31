@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,5 +18,10 @@ namespace RacingApp.DAL.Entities
         public int House_Number { get; set; }
         public string City { get; set; }
         public int Postal_Code { get; set; }
+        public ICollection<Races> Races { get; set; }
+        public Circuits()
+        {
+            Races = new Collection<Races>();
+        }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RacingApp.DAL.Migrations
 {
-    public partial class teams : Migration
+    public partial class races : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -97,10 +97,49 @@ namespace RacingApp.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Races",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SeasonId = table.Column<int>(type: "int", nullable: false),
+                    CircuitId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Startdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Enddate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Races", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Races_Circuits_CircuitId",
+                        column: x => x.CircuitId,
+                        principalTable: "Circuits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Races_Seasons_SeasonId",
+                        column: x => x.SeasonId,
+                        principalTable: "Seasons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Circuits_CountryId",
                 table: "Circuits",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Races_CircuitId",
+                table: "Races",
+                column: "CircuitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Races_SeasonId",
+                table: "Races",
+                column: "SeasonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seasons_SeriesId",
@@ -111,13 +150,16 @@ namespace RacingApp.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Races");
+
+            migrationBuilder.DropTable(
+                name: "Teams");
+
+            migrationBuilder.DropTable(
                 name: "Circuits");
 
             migrationBuilder.DropTable(
                 name: "Seasons");
-
-            migrationBuilder.DropTable(
-                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "Country");

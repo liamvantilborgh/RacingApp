@@ -10,8 +10,8 @@ using RacingApp.DAL.Data;
 namespace RacingApp.DAL.Migrations
 {
     [DbContext(typeof(RacingAppContext))]
-    [Migration("20211229142821_teams")]
-    partial class teams
+    [Migration("20211231114258_races")]
+    partial class races
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,6 +69,37 @@ namespace RacingApp.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Country");
+                });
+
+            modelBuilder.Entity("RacingApp.DAL.Entities.Races", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CircuitId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Enddate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SeasonId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Startdate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CircuitId");
+
+                    b.HasIndex("SeasonId");
+
+                    b.ToTable("Races");
                 });
 
             modelBuilder.Entity("RacingApp.DAL.Entities.Seasons", b =>
@@ -150,6 +181,25 @@ namespace RacingApp.DAL.Migrations
                     b.Navigation("Country");
                 });
 
+            modelBuilder.Entity("RacingApp.DAL.Entities.Races", b =>
+                {
+                    b.HasOne("RacingApp.DAL.Entities.Circuits", "Circuit")
+                        .WithMany("Races")
+                        .HasForeignKey("CircuitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RacingApp.DAL.Entities.Seasons", "Season")
+                        .WithMany("Races")
+                        .HasForeignKey("SeasonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Circuit");
+
+                    b.Navigation("Season");
+                });
+
             modelBuilder.Entity("RacingApp.DAL.Entities.Seasons", b =>
                 {
                     b.HasOne("RacingApp.DAL.Entities.Series", "Series")
@@ -161,9 +211,19 @@ namespace RacingApp.DAL.Migrations
                     b.Navigation("Series");
                 });
 
+            modelBuilder.Entity("RacingApp.DAL.Entities.Circuits", b =>
+                {
+                    b.Navigation("Races");
+                });
+
             modelBuilder.Entity("RacingApp.DAL.Entities.Country", b =>
                 {
                     b.Navigation("Circuits");
+                });
+
+            modelBuilder.Entity("RacingApp.DAL.Entities.Seasons", b =>
+                {
+                    b.Navigation("Races");
                 });
 
             modelBuilder.Entity("RacingApp.DAL.Entities.Series", b =>

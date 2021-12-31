@@ -17,5 +17,6 @@ namespace RacingApp.Core.DTO_S
         public string City { get; set; }
         public int Postal_Code { get; set; }
         public CountryDTO Country { get; set; }
+        public List<RacesDTO> Races { get; set; }
     }
 }

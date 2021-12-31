@@ -15,9 +15,10 @@ namespace RacingApp.API.Mapping
         {
             CreateMap<Country, CountryDTO>().ForMember(c => c.Circuits, option => option.Ignore()).ReverseMap();
             //CreateMap<Circuits, CircuitsDTO>().ForMember(c => c.Country, option => option.MapFrom(src => src.Country)).ReverseMap();
-            CreateMap<Circuits, CircuitsDTO>().ReverseMap();
+            CreateMap<Circuits, CircuitsDTO>().ForMember(c => c.Races, option => option.Ignore()).ReverseMap();
             CreateMap<Series, SeriesDTO>().ForMember(s => s.Seasons, option => option.Ignore()).ReverseMap();
-            CreateMap<Seasons, SeasonsDTO>().ReverseMap();
+            CreateMap<Seasons, SeasonsDTO>().ForMember(s => s.Races, option => option.Ignore()).ReverseMap();
+            CreateMap<Races, RacesDTO>().ReverseMap();
             CreateMap<Teams, TeamsDTO>().ReverseMap();
         }
     }
