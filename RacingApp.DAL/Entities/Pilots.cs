@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,10 @@ namespace RacingApp.DAL.Entities
 {
     public class Pilots
     {
+        public Pilots()
+        {
+            PilotRaceTeam = new Collection<PilotRaceTeam>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string FirstName { get; set; }
@@ -18,5 +23,6 @@ namespace RacingApp.DAL.Entities
         public DateTime DateOfBirth { get; set; }
         public int Length { get; set; }
         public decimal Weight { get; set; }
+        public ICollection<PilotRaceTeam> PilotRaceTeam { get; set; }
     }
 }

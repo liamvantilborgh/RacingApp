@@ -21,6 +21,7 @@ namespace RacingApp.API.Mapping
             CreateMap<Races, RacesDTO>().ReverseMap();
             CreateMap<Teams, TeamsDTO>().ReverseMap();
             CreateMap<Pilots, PilotsDTO>().ReverseMap();
+            CreateMap<PilotRaceTeam, PilotRaceTeamDTO>().ReverseMap();
         }
     }
 }

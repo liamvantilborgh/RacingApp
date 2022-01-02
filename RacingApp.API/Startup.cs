@@ -58,6 +58,9 @@ namespace RacingApp.API
             //Pilots
             services.AddTransient<PilotsService>();
 
+            //PilotRaceTeam
+            services.AddTransient<PilotRaceTeamService>();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddControllersWithViews();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RacingApp.DAL.Migrations
 {
-    public partial class pilots : Migration
+    public partial class pilotraceteam : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -78,11 +78,11 @@ namespace RacingApp.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Length_Circuit = table.Column<int>(type: "int", nullable: false),
-                    Street_Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Street_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     House_Number = table.Column<int>(type: "int", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Postal_Code = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -103,7 +103,7 @@ namespace RacingApp.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SeriesId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Startdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -147,10 +147,51 @@ namespace RacingApp.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PilotRaceTeam",
+                columns: table => new
+                {
+                    PilotId = table.Column<int>(type: "int", nullable: false),
+                    RaceId = table.Column<int>(type: "int", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PilotRaceTeam", x => new { x.PilotId, x.RaceId, x.TeamId });
+                    table.ForeignKey(
+                        name: "FK_PilotRaceTeam_Pilots_PilotId",
+                        column: x => x.PilotId,
+                        principalTable: "Pilots",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PilotRaceTeam_Races_RaceId",
+                        column: x => x.RaceId,
+                        principalTable: "Races",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PilotRaceTeam_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Circuits_CountryId",
                 table: "Circuits",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PilotRaceTeam_RaceId",
+                table: "PilotRaceTeam",
+                column: "RaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PilotRaceTeam_TeamId",
+                table: "PilotRaceTeam",
+                column: "TeamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Races_CircuitId",
@@ -170,6 +211,9 @@ namespace RacingApp.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PilotRaceTeam");
+
             migrationBuilder.DropTable(
                 name: "Pilots");
 

@@ -10,8 +10,8 @@ using RacingApp.DAL.Data;
 namespace RacingApp.DAL.Migrations
 {
     [DbContext(typeof(RacingAppContext))]
-    [Migration("20211231144153_pilots")]
-    partial class pilots
+    [Migration("20220102115727_pilotraceteam")]
+    partial class pilotraceteam
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,9 +26,12 @@ namespace RacingApp.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CountryId")
@@ -41,12 +44,14 @@ namespace RacingApp.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Postal_Code")
                         .HasColumnType("int");
 
                     b.Property<string>("Street_Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -69,6 +74,26 @@ namespace RacingApp.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Country");
+                });
+
+            modelBuilder.Entity("RacingApp.DAL.Entities.PilotRaceTeam", b =>
+                {
+                    b.Property<int>("PilotId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RaceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PilotId", "RaceId", "TeamId");
+
+                    b.HasIndex("RaceId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("PilotRaceTeam");
                 });
 
             modelBuilder.Entity("RacingApp.DAL.Entities.Pilots", b =>
@@ -147,12 +172,15 @@ namespace RacingApp.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Enddate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SeriesId")
@@ -221,6 +249,33 @@ namespace RacingApp.DAL.Migrations
                     b.Navigation("Country");
                 });
 
+            modelBuilder.Entity("RacingApp.DAL.Entities.PilotRaceTeam", b =>
+                {
+                    b.HasOne("RacingApp.DAL.Entities.Pilots", "Pilot")
+                        .WithMany("PilotRaceTeam")
+                        .HasForeignKey("PilotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RacingApp.DAL.Entities.Races", "Race")
+                        .WithMany("PilotRaceTeam")
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RacingApp.DAL.Entities.Teams", "Team")
+                        .WithMany("PilotRaceTeam")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pilot");
+
+                    b.Navigation("Race");
+
+                    b.Navigation("Team");
+                });
+
             modelBuilder.Entity("RacingApp.DAL.Entities.Races", b =>
                 {
                     b.HasOne("RacingApp.DAL.Entities.Circuits", "Circuit")
@@ -261,6 +316,16 @@ namespace RacingApp.DAL.Migrations
                     b.Navigation("Circuits");
                 });
 
+            modelBuilder.Entity("RacingApp.DAL.Entities.Pilots", b =>
+                {
+                    b.Navigation("PilotRaceTeam");
+                });
+
+            modelBuilder.Entity("RacingApp.DAL.Entities.Races", b =>
+                {
+                    b.Navigation("PilotRaceTeam");
+                });
+
             modelBuilder.Entity("RacingApp.DAL.Entities.Seasons", b =>
                 {
                     b.Navigation("Races");
@@ -269,6 +334,11 @@ namespace RacingApp.DAL.Migrations
             modelBuilder.Entity("RacingApp.DAL.Entities.Series", b =>
                 {
                     b.Navigation("Seasons");
+                });
+
+            modelBuilder.Entity("RacingApp.DAL.Entities.Teams", b =>
+                {
+                    b.Navigation("PilotRaceTeam");
                 });
 #pragma warning restore 612, 618
         }

@@ -18,6 +18,7 @@ namespace RacingApp.DAL
         private RacesRepository _racesRepository;
         private TeamsRepository _teamsRepository;
         private PilotsRepository _pilotsRepository;
+        private PilotRaceTeamRepository _pilotRaceTeamRepository;
         public UnitOfWork(RacingAppContext context)
         {
             this.context = context;
@@ -29,6 +30,7 @@ namespace RacingApp.DAL
         public IRacesRepository Races => _racesRepository ??= new RacesRepository(context);
         public ITeamsRepository Teams => _teamsRepository ??= new TeamsRepository(context);
         public IPilotsRepository Pilots => _pilotsRepository ??= new PilotsRepository(context);
+        public IPilotRaceTeamRepository PilotRaceTeam => _pilotRaceTeamRepository ??= new PilotRaceTeamRepository(context);
 
         public int CommitAsync()
         {
