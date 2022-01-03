@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacingApp.DAL", "RacingApp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacingApp.UI", "RacingApp.UI\RacingApp.UI.csproj", "{A2B7F1F3-590D-4C32-9B62-6FCCD10764EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacingApp.Core", "RacingApp.Core\RacingApp.Core.csproj", "{FF9F9DA5-6D39-4969-BADE-1285850B5924}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacingApp.Core", "RacingApp.Core\RacingApp.Core.csproj", "{FF9F9DA5-6D39-4969-BADE-1285850B5924}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

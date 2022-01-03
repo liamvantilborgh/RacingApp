@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RacingApp.BLL\RacingApp.BLL.csproj" />
+    <ProjectReference Include="..\RacingApp.UI\RacingApp.UI.csproj" />
   </ItemGroup>
 
 </Project>

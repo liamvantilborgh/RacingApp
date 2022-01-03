@@ -16,6 +16,8 @@ using RacingApp.DAL.Data;
 using RacingApp.DAL;
 using RacingApp.BLL;
 using RacingApp.DAL.Repositories;
+using System.Net;
+using RacingApp.UI;
 
 namespace RacingApp.API
 {
@@ -60,6 +62,10 @@ namespace RacingApp.API
 
             //PilotRaceTeam
             services.AddTransient<PilotRaceTeamService>();
+
+            /*services.AddSingleton<WebClient>();
+
+            services.AddSingleton<Client>();*/
 
             services.AddAutoMapper(typeof(Startup));
 

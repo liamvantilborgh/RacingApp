@@ -1,0 +1,63 @@
+﻿@model CircuitCountry
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Circuits</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Circuit.Name" class="control-label"></label>
+                <input asp-for="Circuit.Name" class="form-control" />
+                <span asp-validation-for="Circuit.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Circuit.Country" class="control-label"></label>
+                <input type="hidden" asp-for="Circuit.CountryId" />
+                @Html.DropDownListFor(m => m.CountryId, Model.CountryDropDown, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label asp-for="Circuit.Length_Circuit" class="control-label"></label>
+                <input asp-for="Circuit.Length_Circuit" class="form-control" />
+                <span asp-validation-for="Circuit.Length_Circuit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Circuit.Street_Name" class="control-label"></label>
+                <input asp-for="Circuit.Street_Name" class="form-control" />
+                <span asp-validation-for="Circuit.Street_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Circuit.House_Number" class="control-label"></label>
+                <input asp-for="Circuit.House_Number" class="form-control" />
+                <span asp-validation-for="Circuit.House_Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Circuit.City" class="control-label"></label>
+                <input asp-for="Circuit.City" class="form-control" />
+                <span asp-validation-for="Circuit.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Circuit.Postal_Code" class="control-label"></label>
+                <input asp-for="Circuit.Postal_Code" class="form-control" />
+                <span asp-validation-for="Circuit.Postal_Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
