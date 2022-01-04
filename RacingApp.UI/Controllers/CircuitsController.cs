@@ -44,7 +44,52 @@ namespace RacingApp.UI.Controllers
             CircuitsDTO circuitToAdd = circuitCountry.Circuit;
             //need to acces an internal property from custom class otherwise it tries to put a string id in a int prop
             circuitToAdd.CountryId = int.Parse(circuitCountry.CountryId);
+            if (circuitCountry.miles)
+            {
+                var km = Math.Round(circuitCountry.LengthMiles * 1.609344);
+                circuitToAdd.Length_Circuit = (int)km;
+            }
             var result = _client.UploadString("circuits/add", JsonConvert.SerializeObject(circuitToAdd));
+
+            if (result.Length > 0)
+            {
+                return Redirect("Index");
+            }
+            return Redirect("Index");
+        }
+
+        public IActionResult Details(int id)
+        {
+            string json = _client.DownloadString("circuits/" + id);
+            var result = (new JavaScriptSerializer()).Deserialize<CircuitsDTO>(json);
+
+            return View("Details", result);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            string json = _client.DownloadString("circuits/" + id);
+            var result = (new JavaScriptSerializer()).Deserialize<CircuitsDTO>(json);
+
+            var json2 = _client.DownloadString("countries");
+            var countries = new JavaScriptSerializer().Deserialize<IEnumerable<CountryDTO>>(json2);
+
+            CircuitCountry circuitCountry = new((List<CountryDTO>)countries, result);
+            return View("Edit", circuitCountry);
+
+        }
+
+        public IActionResult EditCircuit(int Id, CircuitCountry circuitCountry)
+        {
+            CircuitsDTO circuitToEdit = circuitCountry.Circuit;
+            if(circuitCountry.miles)
+            {
+                var km = Math.Round(circuitCountry.LengthMiles * 1.609344);
+                circuitToEdit.Length_Circuit = (int)km;
+            }
+            //need to acces an internal property from custom class otherwise it tries to put a string id in a int prop
+            circuitToEdit.CountryId = int.Parse(circuitCountry.CountryId);
+            var result = _client.UploadString("circuits/update/" + Id, JsonConvert.SerializeObject(circuitToEdit));
 
             if (result.Length > 0)
             {

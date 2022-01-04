@@ -1,4 +1,4 @@
-﻿@model RacingApp.Core.DTO_S.CircuitsDTO
+﻿@model CircuitCountry
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,43 +10,50 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="EditCircuit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="CountryId" class="control-label"></label>
-                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId"></select>
-                <span asp-validation-for="CountryId" class="text-danger"></span>
+                <label asp-for="Circuit.Name" class="control-label"></label>
+                <input asp-for="Circuit.Name" class="form-control" />
+                <span asp-validation-for="Circuit.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Circuit.Country" class="control-label"></label>
+                <input type="hidden" asp-for="Circuit.CountryId" />
+                @Html.DropDownListFor(m => m.CountryId, Model.CountryDropDown, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label asp-for="Length_Circuit" class="control-label"></label>
-                <input asp-for="Length_Circuit" class="form-control" />
-                <span asp-validation-for="Length_Circuit" class="text-danger"></span>
+                <label>Length Circuit (km)</label>
+                <input asp-for="Circuit.Length_Circuit" class="form-control" />
+                <span asp-validation-for="Circuit.Length_Circuit" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Street_Name" class="control-label"></label>
-                <input asp-for="Street_Name" class="form-control" />
-                <span asp-validation-for="Street_Name" class="text-danger"></span>
+                <label>Length Circuit (miles)</label>
+                <input asp-for="LengthMiles" class="form-control" />
+                <span asp-validation-for="LengthMiles" class="text-danger"></span>
+            </div>
+            <label>Use Miles</label>
+            @Html.CheckBoxFor(m => m.miles)
+            <div class="form-group">
+                <label>Street Name</label>
+                <input asp-for="Circuit.Street_Name" class="form-control" />
+                <span asp-validation-for="Circuit.Street_Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="House_Number" class="control-label"></label>
-                <input asp-for="House_Number" class="form-control" />
-                <span asp-validation-for="House_Number" class="text-danger"></span>
+                <label>House Number</label>
+                <input asp-for="Circuit.House_Number" class="form-control" />
+                <span asp-validation-for="Circuit.House_Number" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
+                <label asp-for="Circuit.City" class="control-label"></label>
+                <input asp-for="Circuit.City" class="form-control" />
+                <span asp-validation-for="Circuit.City" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Postal_Code" class="control-label"></label>
-                <input asp-for="Postal_Code" class="form-control" />
-                <span asp-validation-for="Postal_Code" class="text-danger"></span>
+                <label>Postal Code</label>
+                <input asp-for="Circuit.Postal_Code" class="form-control" />
+                <span asp-validation-for="Circuit.Postal_Code" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

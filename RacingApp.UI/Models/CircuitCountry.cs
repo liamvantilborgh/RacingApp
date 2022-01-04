@@ -10,6 +10,9 @@ namespace RacingApp.UI.Models
     public class CircuitCountry
     {
         public string CountryId { get; set; }
+        public int Id { get; set; }
+        public int LengthMiles { get; set; }
+        public bool miles { get; set; }
         public CircuitsDTO Circuit { get; set; }
         public List<SelectListItem> CountryDropDown;
 
@@ -27,8 +30,25 @@ namespace RacingApp.UI.Models
                 });
             }
         }
+        public CircuitCountry(List<CountryDTO> countries, CircuitsDTO circuit)
+        {
+            Circuit = circuit;
+            Id = circuit.Id;
+            LengthMiles = (int)Math.Round(circuit.Length_Circuit * 0.62137);
+            CountryDropDown = new List<SelectListItem>();
+
+            foreach (var item in countries)
+            {
+                CountryDropDown.Add(new SelectListItem
+                {
+                    Text = item.Name,
+                    Value = item.Id.ToString()
+                });
+            }
+        }
         public CircuitCountry()
         {
+
         }
     }
 }

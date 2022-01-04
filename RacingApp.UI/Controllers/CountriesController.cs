@@ -49,7 +49,6 @@ namespace RacingApp.UI.Controllers
             var result = (new JavaScriptSerializer()).Deserialize<CountryDTO>(json);
 
             return View("Details", result);
-
         }
 
         public IActionResult Edit(int id)
