@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using RacingApp.BLL;
 using RacingApp.Core.DTO_S;
@@ -32,7 +33,15 @@ namespace RacingApp.API.Controllers
         //POST: series/add
         public IActionResult Add(SeriesDTO series)
         {
-            _seriesService.Add(series);
+            try
+            {
+                _seriesService.Add(series);
+            }
+            catch (Exception E)
+            {
+                throw new Exception(E.Message);
+            }
+            
             return Ok(series);
         }
 

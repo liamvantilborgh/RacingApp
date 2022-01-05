@@ -2,6 +2,7 @@
 using RacingApp.DAL.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,19 @@ namespace RacingApp.DAL
 
         public int CommitAsync()
         {
-            return context.SaveChanges();
+            int test = 0;
+            try
+            {
+                test = context.SaveChanges();
+            }
+            catch(Exception E)
+            {
+                Debug.WriteLine("WORKS");
+                Debug.WriteLine(E.Message);
+                throw new Exception(E.Message);
+            }
+
+            return test;
         }
 
         public void Dispose()

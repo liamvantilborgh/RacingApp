@@ -28,6 +28,10 @@ namespace RacingApp.DAL.Configurations
                 .IsRequired();
 
             builder
+                .HasIndex(circuit => circuit.Name)
+                .IsUnique();
+
+            builder
                 .Property(season => season.Startdate)
                 .IsRequired();
             //.HasDefaultValue(DateTime.Today);

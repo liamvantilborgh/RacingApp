@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RacingApp.DAL.Migrations
 {
-    public partial class pilotraceteam : Migration
+    public partial class config : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace RacingApp.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,11 +26,11 @@ namespace RacingApp.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NickName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LicenseNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhotoRelativePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NickName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LicenseNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PhotoRelativePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sex = table.Column<string>(type: "nvarchar(1)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Length = table.Column<int>(type: "int", nullable: false),
@@ -47,7 +47,7 @@ namespace RacingApp.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     Sort_Order = table.Column<int>(type: "int", nullable: false),
                     Startdate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -64,7 +64,7 @@ namespace RacingApp.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,7 +78,7 @@ namespace RacingApp.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Length_Circuit = table.Column<int>(type: "int", nullable: false),
                     Street_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     House_Number = table.Column<int>(type: "int", nullable: false),
@@ -103,7 +103,7 @@ namespace RacingApp.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SeriesId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Startdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -126,7 +126,7 @@ namespace RacingApp.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SeasonId = table.Column<int>(type: "int", nullable: false),
                     CircuitId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Startdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -184,6 +184,18 @@ namespace RacingApp.DAL.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Circuits_Name",
+                table: "Circuits",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Country_Name",
+                table: "Country",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PilotRaceTeam_RaceId",
                 table: "PilotRaceTeam",
                 column: "RaceId");
@@ -194,9 +206,21 @@ namespace RacingApp.DAL.Migrations
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pilots_LicenseNumber",
+                table: "Pilots",
+                column: "LicenseNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Races_CircuitId",
                 table: "Races",
                 column: "CircuitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Races_Name",
+                table: "Races",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Races_SeasonId",
@@ -204,9 +228,27 @@ namespace RacingApp.DAL.Migrations
                 column: "SeasonId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Seasons_Name",
+                table: "Seasons",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Seasons_SeriesId",
                 table: "Seasons",
                 column: "SeriesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Series_Name",
+                table: "Series",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teams_Name",
+                table: "Teams",
+                column: "Name",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

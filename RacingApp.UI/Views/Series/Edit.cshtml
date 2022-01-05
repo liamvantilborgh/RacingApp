@@ -1,4 +1,4 @@
-﻿@model RacingApp.DAL.Entities.Series
+﻿@model RacingApp.Core.DTO_S.SeriesDTO
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="EditSeries">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -18,15 +18,9 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                </label>
-            </div>
             <div class="form-group">
                 <label asp-for="Sort_Order" class="control-label"></label>
                 <input asp-for="Sort_Order" class="form-control" />
-                <span asp-validation-for="Sort_Order" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Startdate" class="control-label"></label>

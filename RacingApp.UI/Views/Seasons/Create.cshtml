@@ -1,4 +1,4 @@
-﻿@model RacingApp.DAL.Entities.Seasons
+﻿@model SeasonsSerie
 
 @{
     ViewData["Title"] = "Create";
@@ -10,26 +10,27 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Add">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="SeriesId" class="control-label"></label>
-                <select asp-for="SeriesId" class ="form-control" asp-items="ViewBag.SeriesId"></select>
+                <label asp-for="Season.Name" class="control-label"></label>
+                <input asp-for="Season.Name" class="form-control" />
+                <span asp-validation-for="Season.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Season.Series" class="control-label"></label>
+                <input type="hidden" asp-for="Season.SeriesId" />
+                @Html.DropDownListFor(m => m.SeriesId, Model.SeriesDropDown, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label asp-for="Startdate" class="control-label"></label>
-                <input asp-for="Startdate" class="form-control" />
-                <span asp-validation-for="Startdate" class="text-danger"></span>
+                <label asp-for="Season.Startdate" class="control-label"></label>
+                <input asp-for="Season.Startdate" class="form-control" />
+                <span asp-validation-for="Season.Startdate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Enddate" class="control-label"></label>
-                <input asp-for="Enddate" class="form-control" />
-                <span asp-validation-for="Enddate" class="text-danger"></span>
+                <label asp-for="Season.Enddate" class="control-label"></label>
+                <input asp-for="Season.Enddate" class="form-control" />
+                <span asp-validation-for="Season.Enddate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

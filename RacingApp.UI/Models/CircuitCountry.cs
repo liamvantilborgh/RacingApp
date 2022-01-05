@@ -34,6 +34,8 @@ namespace RacingApp.UI.Models
         {
             Circuit = circuit;
             Id = circuit.Id;
+            //to set right country in dropdown
+            CountryId = circuit.CountryId.ToString();
             LengthMiles = (int)Math.Round(circuit.Length_Circuit * 0.62137);
             CountryDropDown = new List<SelectListItem>();
 

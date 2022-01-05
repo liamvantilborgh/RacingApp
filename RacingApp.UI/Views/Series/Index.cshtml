@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RacingApp.DAL.Entities.Series>
+﻿@model IEnumerable<RacingApp.Core.DTO_S.SeriesDTO>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,15 +18,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Active)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sort_Order)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Startdate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Enddate)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -38,15 +29,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sort_Order)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Startdate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Enddate)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

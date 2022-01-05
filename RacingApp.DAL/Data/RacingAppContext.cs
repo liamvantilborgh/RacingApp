@@ -30,10 +30,25 @@ namespace RacingApp.DAL.Data
                 .ApplyConfiguration(new PilotRaceTeamConfig());
 
             builder
+                .ApplyConfiguration(new RaceConfig());
+
+            builder
+                .ApplyConfiguration(new PilotConfig());
+
+            builder
+                .ApplyConfiguration(new TeamConfig());
+
+            builder
                 .ApplyConfiguration(new CircuitConfig());
 
             builder
+                .ApplyConfiguration(new CountryConfig());
+
+            builder
                 .ApplyConfiguration(new SeasonsConfig());
+
+            builder
+                .ApplyConfiguration(new SeriesConfig());
         }
     }
 }
