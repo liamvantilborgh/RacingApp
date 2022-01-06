@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RacingApp.DAL.Entities.Races>
+﻿@model IEnumerable<RacingApp.Core.DTO_S.RacesDTO>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Season)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Circuit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Startdate)
@@ -34,13 +34,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Season.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Circuit.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Season.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Circuit.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Startdate)

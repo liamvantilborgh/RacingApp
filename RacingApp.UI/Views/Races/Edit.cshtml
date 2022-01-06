@@ -1,4 +1,4 @@
-﻿@model RacingApp.DAL.Entities.Races
+﻿@model RaceSeasonCircuit
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,33 +10,33 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="EditRace">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="SeasonId" class="control-label"></label>
-                <select asp-for="SeasonId" class="form-control" asp-items="ViewBag.SeasonId"></select>
-                <span asp-validation-for="SeasonId" class="text-danger"></span>
+                <label asp-for="Race.Name" class="control-label"></label>
+                <input asp-for="Race.Name" class="form-control" />
+                <span asp-validation-for="Race.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CircuitId" class="control-label"></label>
-                <select asp-for="CircuitId" class="form-control" asp-items="ViewBag.CircuitId"></select>
-                <span asp-validation-for="CircuitId" class="text-danger"></span>
+                <label asp-for="Race.Season" class="control-label"></label>
+                <input type="hidden" asp-for="Race.SeasonId" />
+                @Html.DropDownListFor(m => m.SeasonId, Model.SeasonDropDown, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Race.Circuit" class="control-label"></label>
+                <input type="hidden" asp-for="Race.CircuitId" />
+                @Html.DropDownListFor(m => m.CircuitId, Model.CircuitDropDown, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label asp-for="Startdate" class="control-label"></label>
-                <input asp-for="Startdate" class="form-control" />
-                <span asp-validation-for="Startdate" class="text-danger"></span>
+                <label asp-for="Race.Startdate" class="control-label"></label>
+                <input asp-for="Race.Startdate" class="form-control" />
+                <span asp-validation-for="Race.Startdate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Enddate" class="control-label"></label>
-                <input asp-for="Enddate" class="form-control" />
-                <span asp-validation-for="Enddate" class="text-danger"></span>
+                <label asp-for="Race.Enddate" class="control-label"></label>
+                <input asp-for="Race.Enddate" class="form-control" />
+                <span asp-validation-for="Race.Enddate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
