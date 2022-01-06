@@ -24,8 +24,8 @@ namespace RacingApp.BLL
 
         public IEnumerable<CircuitsDTO> GetAll()
         {
-            var people = _unitOfWork.Circuits.GetAllWithCountry();
-            return _mapper.Map<IEnumerable<Circuits>, IEnumerable<CircuitsDTO>>(people);
+            var circuits = _unitOfWork.Circuits.GetAllWithCountry();
+            return _mapper.Map<IEnumerable<Circuits>, IEnumerable<CircuitsDTO>>(circuits);
         }
 
         public CircuitsDTO GetById(int id)

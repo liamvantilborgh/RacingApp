@@ -60,14 +60,14 @@ namespace RacingApp.BLL
             if (pilot.Name != null && pilot.FirstName != null && pilot.NickName != null && pilot.LicenseNumber != null && pilot.PhotoRelativePath != null && pilot.Sex != 0 && pilot.Length > 0 && pilot.Weight > 0)
             {
                 //check if License number is allready in use by other pilot
-                var pilots = _unitOfWork.Pilots.GetAll();
+                /*var pilots = _unitOfWork.Pilots.GetAll();
                 foreach (var p in pilots)
                 {
                     if (p.LicenseNumber == pilot.LicenseNumber)
                     {
                         throw new Exception($"License number '{pilot.LicenseNumber}' is allready in use by {p.Name}.");
                     }
-                }
+                }*/
                 var pilotToUpdate = _unitOfWork.Pilots.GetById(id);
                 if (pilotToUpdate != null)
                 {
@@ -77,8 +77,8 @@ namespace RacingApp.BLL
                     pilotToUpdate.LicenseNumber = pilot.LicenseNumber;
                     pilotToUpdate.PhotoRelativePath = pilot.PhotoRelativePath;
                     pilotToUpdate.Sex = pilot.Sex;
-                    pilotToUpdate.Length = pilot.Length;
-                    pilotToUpdate.Weight = pilot.Weight;
+                    pilotToUpdate.Length = (int)pilot.Length;
+                    pilotToUpdate.Weight = (decimal)pilot.Weight;
                     _unitOfWork.Pilots.Update(pilotToUpdate);
                     _unitOfWork.CommitAsync();
                 }

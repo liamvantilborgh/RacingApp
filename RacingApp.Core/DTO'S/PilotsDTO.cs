@@ -17,6 +17,6 @@ namespace RacingApp.Core.DTO_S
         public char Sex { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int Length { get; set; }
-        public decimal Weight { get; set; }
+        public double Weight { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RacingApp.DAL.Entities.Pilots>
+﻿@model IEnumerable<RacingApp.Core.DTO_S.PilotsDTO>
 
 @{
     ViewData["Title"] = "Index";
@@ -25,19 +25,7 @@
                 @Html.DisplayNameFor(model => model.LicenseNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhotoRelativePath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sex)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Length)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Weight)
+                Photo
             </th>
             <th></th>
         </tr>
@@ -57,20 +45,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.LicenseNumber)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhotoRelativePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sex)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Length)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Weight)
+            <td>             
+                <img src=@Html.DisplayFor(modelItem => item.PhotoRelativePath) alt="RacingApp/RacingApp.UI/Images/PilotAlt.png" />
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

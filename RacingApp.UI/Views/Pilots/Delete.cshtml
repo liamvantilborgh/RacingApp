@@ -1,4 +1,4 @@
-﻿@model RacingApp.DAL.Entities.Pilots
+﻿@model RacingApp.Core.DTO_S.PilotsDTO
 
 @{
     ViewData["Title"] = "Delete";
@@ -36,10 +36,10 @@
             @Html.DisplayFor(model => model.LicenseNumber)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhotoRelativePath)
+            Photo
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhotoRelativePath)
+            <img src=@Html.DisplayFor(model => model.PhotoRelativePath) alt="RacingApp/RacingApp.UI/Images/PilotAlt.png" />
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Sex)
@@ -67,7 +67,7 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-action="DeletePilot">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>

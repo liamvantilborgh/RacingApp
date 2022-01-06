@@ -37,12 +37,11 @@ namespace RacingApp.DAL.Configurations
                 .IsRequired();
 
             builder
-                .Property(Pilot => Pilot.NickName)
-                .IsRequired();
+                .Property(Pilot => Pilot.NickName);
+
 
             builder
-                .Property(Pilot => Pilot.PhotoRelativePath)
-                .IsRequired();
+                .Property(Pilot => Pilot.PhotoRelativePath);
 
             builder
                 .Property(Pilot => Pilot.Sex)
@@ -53,12 +52,10 @@ namespace RacingApp.DAL.Configurations
                 .IsRequired();
 
             builder
-                .Property(Pilot => Pilot.Length)
-                .IsRequired();
+                .Property(Pilot => Pilot.Length);
 
             builder
-                .Property(Pilot => Pilot.Weight)
-                .IsRequired();
+                .Property(Pilot => Pilot.Weight);
 
             builder
                 .ToTable("Pilots");

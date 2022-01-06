@@ -1,4 +1,4 @@
-﻿@model RacingApp.DAL.Entities.Pilots
+﻿@model PilotModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,54 +10,68 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="EditPilot">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Pilot.Name" class="control-label"></label>
+                <input asp-for="Pilot.Name" class="form-control" />
+                <span asp-validation-for="Pilot.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label asp-for="Pilot.FirstName" class="control-label"></label>
+                <input asp-for="Pilot.FirstName" class="form-control" />
+                <span asp-validation-for="Pilot.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NickName" class="control-label"></label>
-                <input asp-for="NickName" class="form-control" />
-                <span asp-validation-for="NickName" class="text-danger"></span>
+                <label asp-for="Pilot.NickName" class="control-label"></label>
+                <input asp-for="Pilot.NickName" class="form-control" />
+                <span asp-validation-for="Pilot.NickName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LicenseNumber" class="control-label"></label>
-                <input asp-for="LicenseNumber" class="form-control" />
-                <span asp-validation-for="LicenseNumber" class="text-danger"></span>
+                <label asp-for="Pilot.LicenseNumber" class="control-label"></label>
+                <input asp-for="Pilot.LicenseNumber" class="form-control" />
+                <span asp-validation-for="Pilot.LicenseNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PhotoRelativePath" class="control-label"></label>
-                <input asp-for="PhotoRelativePath" class="form-control" />
-                <span asp-validation-for="PhotoRelativePath" class="text-danger"></span>
+                <label asp-for="Pilot.PhotoRelativePath" class="control-label"></label>
+                <input asp-for="Pilot.PhotoRelativePath" class="form-control" />
+                <span asp-validation-for="Pilot.PhotoRelativePath" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Sex" class="control-label"></label>
-                <input asp-for="Sex" class="form-control" />
-                <span asp-validation-for="Sex" class="text-danger"></span>
+                <label asp-for="Pilot.Sex" class="control-label"></label>
+                <input type="hidden" asp-for="Pilot.Sex" />
+                @Html.DropDownListFor(m => m.Sex, new SelectList(Enum.GetValues(typeof(Sex))), new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                <label asp-for="Pilot.DateOfBirth" class="control-label"></label>
+                <input asp-for="Pilot.DateOfBirth" class="form-control" />
+                <span asp-validation-for="Pilot.DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Length" class="control-label"></label>
-                <input asp-for="Length" class="form-control" />
-                <span asp-validation-for="Length" class="text-danger"></span>
+                <label asp-for="Pilot.Length" class="control-label"></label>
+                <input asp-for="Pilot.Length" class="form-control" />
+                <span asp-validation-for="Pilot.Length" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Weight" class="control-label"></label>
-                <input asp-for="Weight" class="form-control" />
-                <span asp-validation-for="Weight" class="text-danger"></span>
+                <label>Length (feet)</label>
+                <input asp-for="LengthFeet" class="form-control" />
+                <span asp-validation-for="LengthFeet" class="text-danger"></span>
             </div>
+            <label>Use Miles</label>
+            @Html.CheckBoxFor(m => m.feet)
+            <div class="form-group">
+                <label asp-for="Pilot.Weight" class="control-label"></label>
+                <input asp-for="Pilot.Weight" class="form-control" />
+                <span asp-validation-for="Pilot.Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Wheight (lbs)</label>
+                <input asp-for="Wheightlbs" class="form-control" />
+                <span asp-validation-for="Wheightlbs" class="text-danger"></span>
+            </div>
+            <label>Use Miles</label>
+            @Html.CheckBoxFor(m => m.lbs)
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

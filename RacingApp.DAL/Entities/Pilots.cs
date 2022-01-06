@@ -21,8 +21,8 @@ namespace RacingApp.DAL.Entities
         public string PhotoRelativePath { get; set; }
         public char Sex { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public int Length { get; set; }
-        public decimal Weight { get; set; }
+        public int? Length { get; set; }
+        public decimal? Weight { get; set; }
         public ICollection<PilotRaceTeam> PilotRaceTeam { get; set; }
     }
 }
