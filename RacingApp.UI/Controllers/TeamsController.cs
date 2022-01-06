@@ -11,30 +11,29 @@ using System.Threading.Tasks;
 
 namespace RacingApp.UI.Controllers
 {
-    public class CountriesController : Controller
+    public class TeamsController : Controller
     {
         private WebClient _client;
-        public CountriesController()
+        public TeamsController()
         {
             GetWebClient();
         }
 
         public IActionResult Index()
         {
-            string json = _client.DownloadString("countries");
-            var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<CountryDTO>>(json);
+            string json = _client.DownloadString("teams");
+            var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<TeamsDTO>>(json);
             return View("Index", result);
         }
-
         public IActionResult Create()
         {
             return View();
         }
 
-        public IActionResult Add(CountryDTO country)
+        public IActionResult Add(TeamsDTO team)
         {
-            string data = JsonConvert.SerializeObject(country);
-            var result = _client.UploadString("countries/add", data);
+            string data = JsonConvert.SerializeObject(team);
+            var result = _client.UploadString("teams/add", data);
 
             if (result.Length > 0)
             {
@@ -46,25 +45,25 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult Details(int id)
         {
-            string json = _client.DownloadString(_client.BaseAddress + "countries/" + id);
-            var result = (new JavaScriptSerializer()).Deserialize<CountryDTO>(json);
+            string json = _client.DownloadString("teams/" + id);
+            var result = (new JavaScriptSerializer()).Deserialize<TeamsDTO>(json);
 
             return View("Details", result);
         }
 
         public IActionResult Edit(int id)
         {
-            string json = _client.DownloadString(_client.BaseAddress + "countries/" + id);
-            var result = (new JavaScriptSerializer()).Deserialize<CountryDTO>(json);
+            string json = _client.DownloadString("teams/" + id);
+            var result = (new JavaScriptSerializer()).Deserialize<TeamsDTO>(json);
 
             return View("Edit", result);
 
         }
 
-        public IActionResult EditCountry(int Id, CountryDTO country)
+        public IActionResult EditTeam(int Id, TeamsDTO team)
         {
-            string data = JsonConvert.SerializeObject(country);
-            var result = _client.UploadString(_client.BaseAddress + "countries/update/" + Id, data);
+            string data = JsonConvert.SerializeObject(team);
+            var result = _client.UploadString("teams/update/" + Id, data);
 
             if (result.Length > 0)
             {
@@ -77,15 +76,15 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult Delete(int id)
         {
-            string json = _client.DownloadString(_client.BaseAddress + "countries/" + id);
-            var result = (new JavaScriptSerializer()).Deserialize<CountryDTO>(json);
+            string json = _client.DownloadString("teams/" + id);
+            var result = (new JavaScriptSerializer()).Deserialize<TeamsDTO>(json);
 
             return View("Delete", result);
 
         }
-        public IActionResult DeleteCountry(int id)
+        public IActionResult DeleteTeam(int id)
         {
-            _client.UploadString(_client.BaseAddress + "countries/delete/" + id, "POST", "");
+            _client.UploadString("teams/delete/" + id, "POST", "");
             return Redirect("Index");
 
         }
