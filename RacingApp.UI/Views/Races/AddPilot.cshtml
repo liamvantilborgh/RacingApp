@@ -1,0 +1,39 @@
+﻿@model AddPilotRaceTeamModel
+
+@{
+    ViewData["Title"] = "AddPilot";
+}
+
+<h1>@Model.Race.Name: @Model.Team.Name</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddTeamAndPilotToRaces">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (Model.PilotDropDown.Count() > 0)
+            {
+                <div class="form-group">
+                    <input type="hidden" asp-for="RaceId" />
+                    <input type="hidden" asp-for="TeamId" />
+                    <label>Pilot</label>
+                    @Html.DropDownListFor(m => m.PilotId, Model.PilotDropDown, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            }
+            else
+            {
+                <h5>
+                    No Available Pilots for team "@Model.Team.Name"
+                </h5>
+            }
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="AddTeam" asp-route-id="@Model.RaceId">Back to Teams</a> |
+    <a asp-action="Details" asp-route-id="@Model.RaceId">Back to List</a>
+</div>

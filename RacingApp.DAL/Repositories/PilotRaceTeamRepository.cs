@@ -34,10 +34,8 @@ namespace RacingApp.DAL.Repositories
             return _context.PilotRaceTeam
                 .Include(e => e.Race)
                 .Include(e => e.Team)
+                .Include(e => e.Pilot)
                 .Where(p => p.RaceId == id);
-                /*.Select(p => p.Team)
-                .Distinct()
-                .AsEnumerable();*/
         }
     
         public IEnumerable<PilotRaceTeam> GetPilotsByRaceIdTeamId(int raceId, int teamId)

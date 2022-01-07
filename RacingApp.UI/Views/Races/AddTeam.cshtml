@@ -1,0 +1,29 @@
+﻿@model AddPilotRaceTeamModel
+
+@{
+    ViewData["Title"] = "AddTeam";
+}
+
+<h1>@Model.Race.Name</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddPilot">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="RaceId" />
+                <label>Team</label>
+                @Html.DropDownListFor(m => m.TeamId, Model.TeamsDropDown, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Select Team" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Details" asp-route-id="@Model.RaceId">Back to List</a>
+</div>

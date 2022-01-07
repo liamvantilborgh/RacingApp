@@ -5,6 +5,7 @@ using RacingApp.Core.DTO_S;
 using RacingApp.UI.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -60,7 +61,13 @@ namespace RacingApp.UI.Controllers
             string json = _client.DownloadString("races/" + id);
             var result = (new JavaScriptSerializer()).Deserialize<RacesDTO>(json);
 
-            return View("Details", result);
+            string json2 = _client.DownloadString("pilotraceteam/GetTeamsByRaceId/" + id);
+            var pilotRaceTeams = new JavaScriptSerializer().Deserialize<IEnumerable<PilotRaceTeamDTO>>(json2);
+            pilotRaceTeams = pilotRaceTeams.OrderBy(r => r.Team.Name).ThenBy(r => r.Pilot.Name);
+
+            PilotRaceTeamModel pilotRaceTeamModel = new PilotRaceTeamModel(result, pilotRaceTeams);
+
+            return View("Details", pilotRaceTeamModel);
         }
 
         public IActionResult Edit(int id)
@@ -105,7 +112,87 @@ namespace RacingApp.UI.Controllers
         {
             _client.UploadString("races/delete/" + id, "POST", "");
             return Redirect("Index");
+        }
 
+        //to show and fill teams dropdown
+        public IActionResult AddTeam(int id)
+        {
+            string json3 = _client.DownloadString("races/" + id);
+            var race = (new JavaScriptSerializer()).Deserialize<RacesDTO>(json3);
+
+            var json = _client.DownloadString("teams");
+            var teams = new JavaScriptSerializer().Deserialize<IEnumerable<TeamsDTO>>(json);
+
+            AddPilotRaceTeamModel addPilotRaceTeamModel = new(teams, race);
+            addPilotRaceTeamModel.RaceId = id;
+            return View(addPilotRaceTeamModel);
+        }
+
+        //to show and fill pilotdropdown
+        public IActionResult AddPilot(AddPilotRaceTeamModel modelView)
+        {           
+            var json = _client.DownloadString("pilots");
+            var pilots = new JavaScriptSerializer().Deserialize<IEnumerable<PilotsDTO>>(json).ToList();
+
+            var getAllPilotsFromTeamAndRace = _client.DownloadString("pilotraceteam/GetPilotsByRaceIdTeamId/" + modelView.RaceId + "/" + modelView.TeamId);
+            var pilotsToExclude = new JavaScriptSerializer().Deserialize<IEnumerable<PilotRaceTeamDTO>>(getAllPilotsFromTeamAndRace);
+
+            //To make sure I can't add the same Pilot to the Same team twice, I filter the list of pilots
+            //I ToList() the IEnumerable pilots to call the .Remove() method
+            foreach (var p in pilots.ToList())
+            {
+                foreach (var pte in pilotsToExclude)
+                {
+                    if (p.Id == pte.PilotId)
+                    {
+                        pilots.Remove(p);
+                    }
+                }
+            }
+
+            //have to get race by id again otherwise modelview.race is null
+            string json2 = _client.DownloadString("races/" + modelView.RaceId);
+            var race = (new JavaScriptSerializer()).Deserialize<RacesDTO>(json2);
+
+            //have to get Team by id to fill in the name
+            string json3 = _client.DownloadString("teams/" + modelView.TeamId);
+            var team = (new JavaScriptSerializer()).Deserialize<TeamsDTO>(json3);
+
+            AddPilotRaceTeamModel addPilotRaceTeamModel = new(pilots, race, team);
+            addPilotRaceTeamModel.RaceId = race.Id;
+            addPilotRaceTeamModel.TeamId = modelView.TeamId;
+            return View(addPilotRaceTeamModel);
+        }
+
+        public IActionResult AddTeamAndPilotToRaces(AddPilotRaceTeamModel modelView)
+        {
+            PilotRaceTeamDTO pilotRaceTeam = new();
+
+            pilotRaceTeam.RaceId = modelView.RaceId;
+            pilotRaceTeam.TeamId = int.Parse(modelView.TeamId);
+            pilotRaceTeam.PilotId = int.Parse(modelView.PilotId);
+    
+            string data = JsonConvert.SerializeObject(pilotRaceTeam);
+            var result = _client.UploadString("pilotraceteam/add", data);
+
+            if (result.Length > 0)
+            {
+                return Redirect("Details/" + pilotRaceTeam.RaceId);
+            }
+            return Redirect("Details");
+        }
+
+        public IActionResult DeletePilotRaceTeam(int pilotId, int raceId, int teamId)
+        {
+            string json = _client.DownloadString("pilotraceteam/GetByIds/" + pilotId + "/" + raceId + "/" + teamId);
+            var result = (new JavaScriptSerializer()).Deserialize<PilotRaceTeamDTO>(json);
+            return View("DeletePilotRaceTeam", result);
+        }
+
+        public IActionResult DeletePilotRaceTeams(int pilotId, int raceId, int teamId)
+        {
+            _client.UploadString("pilotraceteam/delete/" + pilotId + "/" + raceId + "/" + teamId, "POST", "");
+            return Redirect("Details/" + raceId);
         }
 
         public void GetWebClient()

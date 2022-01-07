@@ -1,4 +1,4 @@
-﻿@model RacingApp.Core.DTO_S.RacesDTO
+﻿@model PilotRaceTeamModel
 
 @{
     ViewData["Title"] = "Details";
@@ -7,42 +7,86 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Races</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Race.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Race.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Season)
+            @Html.DisplayNameFor(model => model.Race.Season)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Season.Name)
+            @Html.DisplayFor(model => model.Race.Season.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Circuit)
+            @Html.DisplayNameFor(model => model.Race.Circuit)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Circuit.Name)
+            @Html.DisplayFor(model => model.Race.Circuit.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Startdate)
+            @Html.DisplayNameFor(model => model.Race.Startdate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Startdate)
+            @Html.DisplayFor(model => model.Race.Startdate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Enddate)
+            @Html.DisplayNameFor(model => model.Race.Enddate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Enddate)
+            @Html.DisplayFor(model => model.Race.Enddate)
         </dd>
     </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Race.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
+</div>
+
+<br>
+
+<div>
+    <a asp-action="AddTeam" asp-route-id="@Model.Race.Id">Add Team with Pilots</a>
+
+</div>
+
+<div>
+    <h4>Teams and Pilots participating in Race @Model.Race.Name </h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Team")
+                </th>
+                <th>
+                    @Html.DisplayName("Pilot")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PilotRaceTeams)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Team.Name)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pilot.Name) 
+                        @Html.DisplayFor(modelItem => item.Pilot.FirstName)
+                    </td>
+
+                    <td>
+                        <a asp-action="DeletePilotRaceTeam" asp-route-PilotId="@item.PilotId" asp-route-RaceId="@item.RaceId" asp-route-TeamId="@item.TeamId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

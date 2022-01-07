@@ -38,8 +38,8 @@ namespace RacingApp.BLL
             //frontend ook de naam van de race wil weergeven en niet alleen de teams
             var pilotRaceTeam = _unitOfWork.PilotRaceTeam.GetTeamsByRaceId(id);
             //group teams so that I only get the same team once
-            var Teams = pilotRaceTeam.GroupBy(prt => prt.Team).Select(x => x.First());
-            return _mapper.Map <IEnumerable<PilotRaceTeam>, IEnumerable<PilotRaceTeamDTO>>(Teams);
+            //var Teams = pilotRaceTeam.GroupBy(prt => prt.Team).Select(x => x.First());
+            return _mapper.Map <IEnumerable<PilotRaceTeam>, IEnumerable<PilotRaceTeamDTO>>(pilotRaceTeam);
         }
 
         public IEnumerable<PilotRaceTeamDTO> GetPilotsByRaceIdTeamId(int raceId, int teamId)
