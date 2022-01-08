@@ -39,16 +39,8 @@ namespace RacingApp.BLL
         {
             if (series.Name != null && series.Startdate < series.Enddate)
             {
-                try
-                {
-                    _unitOfWork.Series.AddAsync(_mapper.Map<SeriesDTO, Series>(series));
-                    _unitOfWork.CommitAsync();
-                }
-                catch(Exception E)
-                {
-                    throw new Exception(E.Message);
-                }
-                           
+                _unitOfWork.Series.AddAsync(_mapper.Map<SeriesDTO, Series>(series));
+                _unitOfWork.CommitAsync();                          
             }
             else throw new Exception("Series data is not valid");
         }

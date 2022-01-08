@@ -8,9 +8,9 @@ namespace RacingApp.UI.Models
     public class ExceptionModel
     {
         public string ErrorMessage { get; set; }
-        public ExceptionModel(Exception E)
+        public ExceptionModel(string E)
         {
-            ErrorMessage = E.Message;
+            ErrorMessage = E;
         }
     }
 }

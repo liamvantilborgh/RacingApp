@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RacingApp.DAL.Migrations
 {
-    public partial class config : Migration
+    public partial class restrict : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,13 +28,13 @@ namespace RacingApp.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NickName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NickName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LicenseNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PhotoRelativePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhotoRelativePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Sex = table.Column<string>(type: "nvarchar(1)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Length = table.Column<int>(type: "int", nullable: false),
-                    Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Length = table.Column<int>(type: "int", nullable: true),
+                    Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,7 +93,7 @@ namespace RacingApp.DAL.Migrations
                         column: x => x.CountryId,
                         principalTable: "Country",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,7 +115,7 @@ namespace RacingApp.DAL.Migrations
                         column: x => x.SeriesId,
                         principalTable: "Series",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -138,13 +138,13 @@ namespace RacingApp.DAL.Migrations
                         column: x => x.CircuitId,
                         principalTable: "Circuits",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Races_Seasons_SeasonId",
                         column: x => x.SeasonId,
                         principalTable: "Seasons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -163,19 +163,19 @@ namespace RacingApp.DAL.Migrations
                         column: x => x.PilotId,
                         principalTable: "Pilots",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PilotRaceTeam_Races_RaceId",
                         column: x => x.RaceId,
                         principalTable: "Races",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PilotRaceTeam_Teams_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

@@ -19,17 +19,20 @@ namespace RacingApp.DAL.Configurations
             builder
                 .HasOne(prt => prt.Pilot)
                 .WithMany(pilots => pilots.PilotRaceTeam)
-                .HasForeignKey(prt => prt.PilotId);
+                .HasForeignKey(prt => prt.PilotId)
+                .OnDelete(DeleteBehavior.Restrict); 
 
             builder
                 .HasOne(prt => prt.Race)
                 .WithMany(races => races.PilotRaceTeam)
-                .HasForeignKey(prt => prt.RaceId);
+                .HasForeignKey(prt => prt.RaceId)
+                .OnDelete(DeleteBehavior.Restrict); 
 
             builder
                 .HasOne(prt => prt.Team)
                 .WithMany(teams => teams.PilotRaceTeam)
-                .HasForeignKey(prt => prt.TeamId);
+                .HasForeignKey(prt => prt.TeamId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .ToTable("PilotRaceTeam");

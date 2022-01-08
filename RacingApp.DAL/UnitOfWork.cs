@@ -35,19 +35,20 @@ namespace RacingApp.DAL
 
         public int CommitAsync()
         {
-            int test = 0;
-            try
+            //int test = 0;
+            return context.SaveChanges();
+            /*try
             {
-                test = context.SaveChanges();
+                test = 
             }
             catch(Exception E)
             {
-                Debug.WriteLine("WORKS");
-                Debug.WriteLine(E.Message);
-                throw new Exception(E.Message);
+                Debug.WriteLine("UOW");
+                Debug.WriteLine(E.InnerException.Message);
+                throw new Exception(E.InnerException.Message);
             }
 
-            return test;
+            return test;*/
         }
 
         public void Dispose()

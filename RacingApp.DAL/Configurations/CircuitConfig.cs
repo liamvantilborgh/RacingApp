@@ -54,7 +54,8 @@ namespace RacingApp.DAL.Configurations
             builder
                 .HasOne(circuit => circuit.Country)
                 .WithMany(country => country.Circuits)
-                .HasForeignKey(circuit => circuit.CountryId);
+                .HasForeignKey(circuit => circuit.CountryId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .ToTable("Circuits");

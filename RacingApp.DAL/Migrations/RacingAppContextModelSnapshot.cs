@@ -119,7 +119,7 @@ namespace RacingApp.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Length")
+                    b.Property<int?>("Length")
                         .HasColumnType("int");
 
                     b.Property<string>("LicenseNumber")
@@ -131,18 +131,16 @@ namespace RacingApp.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NickName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhotoRelativePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Sex")
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
 
-                    b.Property<decimal>("Weight")
+                    b.Property<decimal?>("Weight")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -281,7 +279,7 @@ namespace RacingApp.DAL.Migrations
                     b.HasOne("RacingApp.DAL.Entities.Country", "Country")
                         .WithMany("Circuits")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Country");
@@ -292,19 +290,19 @@ namespace RacingApp.DAL.Migrations
                     b.HasOne("RacingApp.DAL.Entities.Pilots", "Pilot")
                         .WithMany("PilotRaceTeam")
                         .HasForeignKey("PilotId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RacingApp.DAL.Entities.Races", "Race")
                         .WithMany("PilotRaceTeam")
                         .HasForeignKey("RaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RacingApp.DAL.Entities.Teams", "Team")
                         .WithMany("PilotRaceTeam")
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Pilot");
@@ -319,13 +317,13 @@ namespace RacingApp.DAL.Migrations
                     b.HasOne("RacingApp.DAL.Entities.Circuits", "Circuit")
                         .WithMany("Races")
                         .HasForeignKey("CircuitId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RacingApp.DAL.Entities.Seasons", "Season")
                         .WithMany("Races")
                         .HasForeignKey("SeasonId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Circuit");
@@ -338,7 +336,7 @@ namespace RacingApp.DAL.Migrations
                     b.HasOne("RacingApp.DAL.Entities.Series", "Series")
                         .WithMany("Seasons")
                         .HasForeignKey("SeriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Series");

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Abp.UI;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RacingApp.BLL;
 using RacingApp.Core.DTO_S;
 
@@ -37,11 +40,10 @@ namespace RacingApp.API.Controllers
             {
                 _seriesService.Add(series);
             }
-            catch (Exception E)
+            catch (DbUpdateException E)
             {
-                throw new Exception(E.Message);
+                throw new Exception("Series with this name already exists.");
             }
-            
             return Ok(series);
         }
 

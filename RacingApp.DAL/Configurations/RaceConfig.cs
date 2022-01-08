@@ -44,12 +44,14 @@ namespace RacingApp.DAL.Configurations
             builder
                 .HasOne(Race => Race.Season)
                 .WithMany(Season => Season.Races)
-                .HasForeignKey(Race => Race.SeasonId);
+                .HasForeignKey(Race => Race.SeasonId)
+                .OnDelete(DeleteBehavior.Restrict); ;
 
             builder
                 .HasOne(Race => Race.Circuit)
                 .WithMany(Circuit => Circuit.Races)
-                .HasForeignKey(Race => Race.CircuitId);
+                .HasForeignKey(Race => Race.CircuitId)
+                .OnDelete(DeleteBehavior.Restrict); ;
 
             builder
                 .ToTable("Races");

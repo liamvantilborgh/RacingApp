@@ -44,7 +44,8 @@ namespace RacingApp.DAL.Configurations
             builder
                 .HasOne(season => season.Series)
                 .WithMany(series => series.Seasons)
-                .HasForeignKey(season => season.SeriesId);
+                .HasForeignKey(season => season.SeriesId)
+                .OnDelete(DeleteBehavior.Restrict); ;
 
             builder
                 .ToTable("Seasons");

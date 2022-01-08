@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Abp.UI;
+using Microsoft.AspNetCore.Mvc;
 using Nancy.Json;
 using Newtonsoft.Json;
 using RacingApp.Core.DTO_S;
@@ -9,7 +10,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RacingApp.UI.Controllers
 {
@@ -54,17 +54,18 @@ namespace RacingApp.UI.Controllers
             {
                 serie.Active = true;
             }
+            
             try
             {
                 string data = JsonConvert.SerializeObject(serie);
                 var result = _client.UploadString("series/add", data);
             }
-            catch (Exception E)
+            catch(Exception E)
             {
-                ExceptionModel Exception = new ExceptionModel(E);
-                return View("Exception", Exception);
-            }
-
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when adding the series, try a different name or try again.");
+                return View("Exception", Exception); 
+                //return View("Create");
+            }    
 
             return Redirect("Index");
         }
