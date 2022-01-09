@@ -54,7 +54,7 @@ namespace RacingApp.UI.Controllers
             }
             catch
             {
-                ExceptionModel Exception = new ExceptionModel("Something went wrong when creating the race, try a different name or try again.");
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when creating the race, try a different name and make sure the dates of the race are in between the dates of the season or try again.");
                 return View("Exception", Exception);
             }
 
@@ -103,7 +103,7 @@ namespace RacingApp.UI.Controllers
             }
             catch
             {
-                ExceptionModel Exception = new ExceptionModel("Something went wrong when updating the race, try a different name or try again.");
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when updating the race, try a different name and make sure the dates of the race are in between the dates of the season or try again.");
                 return View("Exception", Exception);
             }
 

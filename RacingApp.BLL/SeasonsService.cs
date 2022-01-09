@@ -76,6 +76,7 @@ namespace RacingApp.BLL
                     seasonToUpdate.Name = season.Name;
                     seasonToUpdate.Startdate = season.Startdate;
                     seasonToUpdate.Enddate = season.Enddate;
+                    seasonToUpdate.Active = season.Active;
                     _unitOfWork.Seasons.Update(seasonToUpdate);
                     _unitOfWork.CommitAsync();
                 }

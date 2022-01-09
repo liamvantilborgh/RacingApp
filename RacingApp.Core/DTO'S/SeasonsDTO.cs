@@ -12,6 +12,7 @@ namespace RacingApp.Core.DTO_S
         public SeriesDTO Series { get; set; }
         public int SeriesId { get; set; }
         public string Name { get; set; }
+        public bool Active { get; set; }
         public DateTime Startdate { get; set; }
         public DateTime Enddate { get; set; }
         public List<RacesDTO> Races { get; set; }

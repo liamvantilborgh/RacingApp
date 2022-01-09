@@ -13,6 +13,7 @@ namespace RacingApp.DAL.Entities
         public Series Series { get; set; }
         public int SeriesId { get; set; }
         public string Name { get; set; }
+        public bool Active { get; set; }
         public DateTime Startdate { get; set; }
         public DateTime Enddate { get; set; }
         public ICollection<Races> Races { get; set; }

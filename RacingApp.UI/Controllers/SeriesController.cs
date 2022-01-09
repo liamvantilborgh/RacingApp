@@ -28,7 +28,7 @@ namespace RacingApp.UI.Controllers
             //update active everytime list is called
             foreach (var s in result)
             {
-                if (s.Enddate < DateTime.Today || s.Enddate.Equals(null))
+                if (s.Startdate > DateTime.Today || s.Enddate < DateTime.Today)
                 {
                     s.Active = false;
                 }
@@ -46,21 +46,21 @@ namespace RacingApp.UI.Controllers
         }
         public IActionResult Add(SeriesDTO serie)
         {
-            if(serie.Enddate < DateTime.Today || serie.Enddate.Equals(null))
+            if (serie.Startdate > DateTime.Today || serie.Enddate < DateTime.Today)
             {
                 serie.Active = false;
             }
-            else
+            else //if(seasonSerie.Season.Enddate.Equals(null))
             {
                 serie.Active = true;
             }
-            
+
             try
             {
                 string data = JsonConvert.SerializeObject(serie);
                 var result = _client.UploadString("series/add", data);
             }
-            catch(Exception E)
+            catch
             {
                 ExceptionModel Exception = new ExceptionModel("Something went wrong when adding the series, try a different name or try again.");
                 return View("Exception", Exception); 
@@ -86,20 +86,21 @@ namespace RacingApp.UI.Controllers
         }
         public IActionResult EditSeries(int Id, SeriesDTO serie)
         {
-            if (serie.Enddate < DateTime.Today || serie.Enddate.Equals(null))
+            if(serie.Startdate > DateTime.Today || serie.Enddate < DateTime.Today)
             {
                 serie.Active = false;
             }
-            else
+            else //if(seasonSerie.Season.Enddate.Equals(null))
             {
                 serie.Active = true;
             }
+
             try
             {
                 string data = JsonConvert.SerializeObject(serie);
                 var result = _client.UploadString("series/update/" + Id, data);
             }
-            catch (Exception E)
+            catch
             {
                 ExceptionModel Exception = new ExceptionModel("Something went wrong when updating the series, try a different name or try again.");
                 return View("Exception", Exception);
@@ -122,7 +123,7 @@ namespace RacingApp.UI.Controllers
                 _client.UploadString("series/delete/" + id, "POST", "");
                 return Redirect("Index");
             }
-            catch (Exception E)
+            catch
             {
                 ExceptionModel Exception = new ExceptionModel("Something went wrong when deleting the series, make sure no season is connected to this series.");
                 return View("Exception", Exception);

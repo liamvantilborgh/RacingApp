@@ -10,8 +10,8 @@ using RacingApp.DAL.Data;
 namespace RacingApp.DAL.Migrations
 {
     [DbContext(typeof(RacingAppContext))]
-    [Migration("20220108112843_restrict")]
-    partial class restrict
+    [Migration("20220109124416_activeseason")]
+    partial class activeseason
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -198,6 +198,9 @@ namespace RacingApp.DAL.Migrations
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("Enddate")
                         .HasColumnType("datetime2");

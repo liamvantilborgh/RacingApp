@@ -4,6 +4,7 @@ using RacingApp.DAL;
 using RacingApp.DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,8 +62,12 @@ namespace RacingApp.BLL
 
         public void Add(RacesDTO Race)
         {
-            if (Race.SeasonId != 0 && Race.CircuitId != 0 && Race.Name != null && Race.Startdate < Race.Enddate)
+            //need to get the season to compare the dates so that racedates are in between seasons dates
+            var season = _unitOfWork.Seasons.GetById(Race.SeasonId);
+            if (Race.SeasonId != 0 && Race.CircuitId != 0 && Race.Name != null && Race.Startdate < Race.Enddate && Race.Startdate > season.Startdate && Race.Enddate < season.Enddate)
             {
+                Debug.WriteLine("Start " + Race.Startdate + " " + season.Startdate);
+                Debug.WriteLine("End " + Race.Enddate + " " + season.Enddate);
                 var raceToAdd = _mapper.Map<RacesDTO, Races>(Race);
                 _unitOfWork.Races.Add(raceToAdd);
                 _unitOfWork.CommitAsync();
@@ -76,13 +81,15 @@ namespace RacingApp.BLL
         public void Update(int id, RacesDTO race)
         {
             var raceToUpdate = _unitOfWork.Races.GetById(id);
+            //need to get the season to compare the dates so that racedates are in between seasons dates
+            var season = _unitOfWork.Seasons.GetById(race.SeasonId);
             if (raceToUpdate == null)
             {
                 throw new Exception($"Race with id: {id} could not be found.");
             }
             else
             {
-                if (race.SeasonId != 0 && race.CircuitId != 0 && race.Name != null && race.Startdate < race.Enddate)
+                if (race.SeasonId != 0 && race.CircuitId != 0 && race.Name != null && race.Startdate < race.Enddate && race.Startdate > season.Startdate && race.Enddate < season.Enddate)
                 {
                     raceToUpdate.SeasonId = race.SeasonId;
                     raceToUpdate.CircuitId = race.CircuitId;

@@ -24,6 +24,19 @@ namespace RacingApp.UI.Controllers
         {
             string json = _client.DownloadString("seasons");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<SeasonsDTO>>(json);
+            //update active everytime list is called
+            foreach (var s in result)
+            {
+                if (s.Startdate > DateTime.Today || s.Enddate < DateTime.Today)
+                {
+                    s.Active = false;
+                }
+                else
+                {
+                    s.Active = true;
+                }
+            }
+
             result = result.OrderBy(r => r.Startdate);
             return View("Index", result);
         }
@@ -40,6 +53,15 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult Add(SeasonsSerie seasonSerie)
         {
+            if (seasonSerie.Season.Startdate > DateTime.Today || seasonSerie.Season.Enddate < DateTime.Today)
+            {
+                seasonSerie.Season.Active = false;
+            }
+            else //if(seasonSerie.Season.Enddate.Equals(null))
+            {
+                seasonSerie.Season.Active = true;
+            }
+
             SeasonsDTO seasonsToAdd = seasonSerie.Season;
             //need to acces an internal property from custom class otherwise it tries to put a string id in a int prop
             seasonsToAdd.SeriesId = int.Parse(seasonSerie.SeriesId);
@@ -78,6 +100,14 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult EditSeason(int Id, SeasonsSerie seasonSerie)
         {
+            if (seasonSerie.Season.Startdate > DateTime.Today || seasonSerie.Season.Enddate < DateTime.Today)
+            {
+                seasonSerie.Season.Active = false;
+            }
+            else //if(seasonSerie.Season.Enddate.Equals(null))
+            {
+                seasonSerie.Season.Active = true;
+            }
             SeasonsDTO seasonToEdit = seasonSerie.Season;
             //need to acces an internal property from custom class otherwise it tries to put a string id in a int prop
             seasonToEdit.SeriesId = int.Parse(seasonSerie.SeriesId);

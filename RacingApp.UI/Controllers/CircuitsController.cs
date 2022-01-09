@@ -25,7 +25,7 @@ namespace RacingApp.UI.Controllers
         {
             string json = _client.DownloadString("circuits");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<CircuitsDTO>>(json);
-            result = result.OrderBy(r => r.Country.Name);
+            result = result.OrderBy(r => r.Country.Name).ThenBy(r => r.Name);
             return View("Index", result);
         }
 

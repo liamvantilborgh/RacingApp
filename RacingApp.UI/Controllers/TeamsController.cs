@@ -24,6 +24,7 @@ namespace RacingApp.UI.Controllers
         {
             string json = _client.DownloadString("teams");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<TeamsDTO>>(json);
+            result = result.OrderBy(r => r.Name);
             return View("Index", result);
         }
         public IActionResult Create()

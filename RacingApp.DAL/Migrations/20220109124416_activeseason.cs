@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RacingApp.DAL.Migrations
 {
-    public partial class restrict : Migration
+    public partial class activeseason : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -104,6 +104,7 @@ namespace RacingApp.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SeriesId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
                     Startdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
