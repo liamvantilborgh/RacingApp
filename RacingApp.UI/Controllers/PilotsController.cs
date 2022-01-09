@@ -5,6 +5,7 @@ using RacingApp.Core.DTO_S;
 using RacingApp.UI.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -39,15 +40,36 @@ namespace RacingApp.UI.Controllers
         {
             PilotsDTO pilot = pilotModel.Pilot;
             pilot.Sex = char.Parse(pilotModel.Sex);
+            if (pilot.Length != null)
+            {
+                if(pilot.Length > 200)
+                {
+                    pilot.Length = 200;
+                }
+            }
+
             if (pilotModel.feet)
             {
                 var cm = Math.Round(double.Parse(pilotModel.LengthFeet) * 30.48);
-                pilot.Length = (int)cm;
+                if(cm > 200)
+                {
+                    pilot.Length = 200;
+                }
+                else
+                {
+                    pilot.Length = (int)cm;
+                }
             }
+
             if (pilotModel.lbs)
             {
                 var kg = Math.Round((double.Parse(pilotModel.Wheightlbs) / 2.205), 1);
                 pilot.Weight = kg;
+            }
+            //in de service van pilot kreeg ik dit niet gedaan
+            if(pilot.PhotoRelativePath == null)
+            {
+                pilot.PhotoRelativePath = "RacingApp/RacingApp.UI/Images/PilotAlt.png";
             }
 
             try
@@ -84,15 +106,44 @@ namespace RacingApp.UI.Controllers
         {
             PilotsDTO pilot = pilotModel.Pilot;
             pilot.Sex = char.Parse(pilotModel.Sex);
+            //so that it doesn't give errors in the view when it contains a comma
+            if(pilot.Weight != null)
+            {
+                pilot.Weight = Math.Round(double.Parse(pilotModel.Weight), 1);
+            }
+            if (pilot.Length != null)
+            {
+                if (pilot.Length > 200)
+                {
+                    pilot.Length = 200;
+                }
+            }
+
             if (pilotModel.feet)
             {
-                var cm = Math.Round(double.Parse(pilotModel.LengthFeet) * 30.48);
-                pilot.Length = (int)cm;
+                //check if value is null before parsing
+                if(pilotModel.LengthFeet != null)
+                {
+                    var cm = Math.Round(double.Parse(pilotModel.LengthFeet) * 30.48);
+                    if (cm > 200)
+                    {
+                        pilot.Length = 200;
+                    }
+                    else
+                    {
+                        pilot.Length = (int)cm;
+                    }
+                }
             }
+
             if (pilotModel.lbs)
             {
-                var kg = Math.Round((double.Parse(pilotModel.Wheightlbs) / 2.205), 1);
-                pilot.Weight = kg;
+                //check if value is null before parsing
+                if (pilotModel.Wheightlbs != null)
+                {
+                    var kg = Math.Round((double.Parse(pilotModel.Wheightlbs) / 2.205), 1);
+                    pilot.Weight = kg;
+                }
             }
 
             try

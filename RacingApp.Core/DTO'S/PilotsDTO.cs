@@ -11,12 +11,16 @@ namespace RacingApp.Core.DTO_S
         public int Id { get; set; }
         public string Name { get; set; }
         public string FirstName { get; set; }
-        public string NickName { get; set; }
+#nullable enable
+        public string? NickName { get; set; }
+#nullable disable
         public string LicenseNumber { get; set; }
-        public string PhotoRelativePath { get; set; }
+#nullable enable
+        public string? PhotoRelativePath { get; set; }
+#nullable disable
         public char Sex { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public int Length { get; set; }
-        public double Weight { get; set; }
+        public int? Length { get; set; }
+        public double? Weight { get; set; }
     }
 }

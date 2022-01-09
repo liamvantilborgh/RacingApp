@@ -64,7 +64,7 @@ namespace RacingApp.BLL
         {
             //need to get the season to compare the dates so that racedates are in between seasons dates
             var season = _unitOfWork.Seasons.GetById(Race.SeasonId);
-            if (Race.SeasonId != 0 && Race.CircuitId != 0 && Race.Name != null && Race.Startdate < Race.Enddate && Race.Startdate > season.Startdate && Race.Enddate < season.Enddate)
+            if (Race.SeasonId != 0 && Race.CircuitId != 0 && Race.Name != null && Race.Startdate < Race.Enddate && Race.Startdate >= season.Startdate && Race.Enddate <= season.Enddate)
             {
                 Debug.WriteLine("Start " + Race.Startdate + " " + season.Startdate);
                 Debug.WriteLine("End " + Race.Enddate + " " + season.Enddate);
@@ -89,7 +89,7 @@ namespace RacingApp.BLL
             }
             else
             {
-                if (race.SeasonId != 0 && race.CircuitId != 0 && race.Name != null && race.Startdate < race.Enddate && race.Startdate > season.Startdate && race.Enddate < season.Enddate)
+                if (race.SeasonId != 0 && race.CircuitId != 0 && race.Name != null && race.Startdate < race.Enddate && race.Startdate >= season.Startdate && race.Enddate <= season.Enddate)
                 {
                     raceToUpdate.SeasonId = race.SeasonId;
                     raceToUpdate.CircuitId = race.CircuitId;

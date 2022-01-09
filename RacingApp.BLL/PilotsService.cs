@@ -4,6 +4,7 @@ using RacingApp.DAL;
 using RacingApp.DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace RacingApp.BLL
 
         public void Add(PilotsDTO pilot)
         {
-            if (pilot.Name != null && pilot.FirstName != null && pilot.NickName != null && pilot.LicenseNumber != null && pilot.PhotoRelativePath != null && pilot.Sex != 0 && pilot.Length > 0 && pilot.Weight > 0)
+            if (pilot.Name != null && pilot.FirstName != null && pilot.LicenseNumber != null && pilot.Sex != 0)
             {
                 //check if License number is allready in use by other pilot
                 var pilots = _unitOfWork.Pilots.GetAll();
@@ -57,7 +58,7 @@ namespace RacingApp.BLL
 
         public void Update(int id, PilotsDTO pilot)
         {
-            if (pilot.Name != null && pilot.FirstName != null && pilot.NickName != null && pilot.LicenseNumber != null && pilot.PhotoRelativePath != null && pilot.Sex != 0 && pilot.Length > 0 && pilot.Weight > 0)
+            if (pilot.Name != null && pilot.FirstName != null && pilot.LicenseNumber != null && pilot.Sex != 0)
             {
                 //check if License number is allready in use by other pilot
                 /*var pilots = _unitOfWork.Pilots.GetAll();
@@ -77,8 +78,14 @@ namespace RacingApp.BLL
                     pilotToUpdate.LicenseNumber = pilot.LicenseNumber;
                     pilotToUpdate.PhotoRelativePath = pilot.PhotoRelativePath;
                     pilotToUpdate.Sex = pilot.Sex;
-                    pilotToUpdate.Length = (int)pilot.Length;
-                    pilotToUpdate.Weight = (decimal)pilot.Weight;
+                    if(pilot.Length != null)
+                    {
+                        pilotToUpdate.Length = (int)pilot.Length;
+                    }
+                    if(pilot.Weight != null)
+                    {
+                        pilotToUpdate.Weight = (decimal)pilot.Weight;
+                    }
                     _unitOfWork.Pilots.Update(pilotToUpdate);
                     _unitOfWork.CommitAsync();
                 }
