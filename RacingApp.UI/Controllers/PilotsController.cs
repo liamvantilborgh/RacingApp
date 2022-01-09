@@ -49,8 +49,18 @@ namespace RacingApp.UI.Controllers
                 var kg = Math.Round((double.Parse(pilotModel.Wheightlbs) / 2.205), 1);
                 pilot.Weight = kg;
             }
-            string data = JsonConvert.SerializeObject(pilot);
-            var result = _client.UploadString("pilots/add", data);
+
+            try
+            {
+                string data = JsonConvert.SerializeObject(pilot);
+                var result = _client.UploadString("pilots/add", data);
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when creating the pilot, try a different license number or try again.");
+                return View("Exception", Exception);
+            }
+            
             return Redirect("Index");
         }
 
@@ -84,15 +94,19 @@ namespace RacingApp.UI.Controllers
                 var kg = Math.Round((double.Parse(pilotModel.Wheightlbs) / 2.205), 1);
                 pilot.Weight = kg;
             }
-            string data = JsonConvert.SerializeObject(pilot);
-            var result = _client.UploadString("pilots/update/" + Id, data);
 
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                string data = JsonConvert.SerializeObject(pilot);
+                var result = _client.UploadString("pilots/update/" + Id, data);
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when updating the pilot, try a different license number or try again.");
+                return View("Exception", Exception);
             }
 
-            return null;
+            return Redirect("Index");
         }
 
         public IActionResult Delete(int id)
@@ -105,7 +119,16 @@ namespace RacingApp.UI.Controllers
         }
         public IActionResult DeletePilot(int id)
         {
-            _client.UploadString("pilots/delete/" + id, "POST", "");
+            try
+            {
+                _client.UploadString("pilots/delete/" + id, "POST", "");
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when deleting the pilot, make sure there is no connection to a race or team.");
+                return View("Exception", Exception);
+            }
+            
             return Redirect("Index");
 
         }

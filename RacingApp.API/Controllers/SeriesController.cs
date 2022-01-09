@@ -51,7 +51,15 @@ namespace RacingApp.API.Controllers
         //POST: series/update/5
         public IActionResult Update(int id, SeriesDTO series)
         {
-            _seriesService.Update(id, series);
+            try
+            {
+                _seriesService.Update(id, series);
+            }
+            catch(DbUpdateException E)
+            {
+                throw new Exception("Series with this name already exists.");
+            }
+            
             return Ok(series);
         }
 

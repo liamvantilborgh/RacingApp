@@ -47,12 +47,17 @@ namespace RacingApp.UI.Controllers
             //need to acces an internal property from custom class otherwise it tries to put a string id in a int prop
             raceToAdd.SeasonId = int.Parse(raceSeasonCircuit.SeasonId);
             raceToAdd.CircuitId = int.Parse(raceSeasonCircuit.CircuitId);
-            var result = _client.UploadString("races/add", JsonConvert.SerializeObject(raceToAdd));
 
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                var result = _client.UploadString("races/add", JsonConvert.SerializeObject(raceToAdd));
             }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when creating the race, try a different name or try again.");
+                return View("Exception", Exception);
+            }
+
             return Redirect("Index");
         }
 
@@ -91,12 +96,17 @@ namespace RacingApp.UI.Controllers
             //need to acces an internal property from custom class otherwise it tries to put a string id in a int prop
             raceToEdit.SeasonId = int.Parse(raceSeasonCircuit.SeasonId);
             raceToEdit.CircuitId = int.Parse(raceSeasonCircuit.CircuitId);
-            var result = _client.UploadString("races/update/" + Id, JsonConvert.SerializeObject(raceToEdit));
 
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                var result = _client.UploadString("races/update/" + Id, JsonConvert.SerializeObject(raceToEdit));
             }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when updating the race, try a different name or try again.");
+                return View("Exception", Exception);
+            }
+
             return Redirect("Index");
         }
 
@@ -110,7 +120,16 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult DeleteRace(int id)
         {
-            _client.UploadString("races/delete/" + id, "POST", "");
+            try
+            {
+                _client.UploadString("races/delete/" + id, "POST", "");
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when deleting the race, make sure there is no connection to a team or pilot.");
+                return View("Exception", Exception);
+            }
+            
             return Redirect("Index");
         }
 
@@ -171,15 +190,17 @@ namespace RacingApp.UI.Controllers
             pilotRaceTeam.RaceId = modelView.RaceId;
             pilotRaceTeam.TeamId = int.Parse(modelView.TeamId);
             pilotRaceTeam.PilotId = int.Parse(modelView.PilotId);
-    
-            string data = JsonConvert.SerializeObject(pilotRaceTeam);
-            var result = _client.UploadString("pilotraceteam/add", data);
-
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Details/" + pilotRaceTeam.RaceId);
+                string data = JsonConvert.SerializeObject(pilotRaceTeam);
+                var result = _client.UploadString("pilotraceteam/add", data);
             }
-            return Redirect("Details");
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when connecting a team and a pilot.");
+                return View("Exception", Exception);
+            }
+            return Redirect("Details/" + pilotRaceTeam.RaceId);
         }
 
         public IActionResult DeletePilotRaceTeam(int pilotId, int raceId, int teamId)
@@ -191,7 +212,15 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult DeletePilotRaceTeams(int pilotId, int raceId, int teamId)
         {
-            _client.UploadString("pilotraceteam/delete/" + pilotId + "/" + raceId + "/" + teamId, "POST", "");
+            try
+            {
+                _client.UploadString("pilotraceteam/delete/" + pilotId + "/" + raceId + "/" + teamId, "POST", "");
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when deleting a connection to team and pilot.");
+                return View("Exception", Exception);
+            }      
             return Redirect("Details/" + raceId);
         }
 

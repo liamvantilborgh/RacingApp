@@ -2,6 +2,7 @@
 using Nancy.Json;
 using Newtonsoft.Json;
 using RacingApp.Core.DTO_S;
+using RacingApp.UI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,15 +33,18 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult Add(TeamsDTO team)
         {
-            string data = JsonConvert.SerializeObject(team);
-            var result = _client.UploadString("teams/add", data);
-
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                string data = JsonConvert.SerializeObject(team);
+                var result = _client.UploadString("teams/add", data);
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when creating the team, try a different name or try again.");
+                return View("Exception", Exception);
             }
 
-            return null;
+            return Redirect("Index");
         }
 
         public IActionResult Details(int id)
@@ -62,16 +66,18 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult EditTeam(int Id, TeamsDTO team)
         {
-            string data = JsonConvert.SerializeObject(team);
-            var result = _client.UploadString("teams/update/" + Id, data);
-
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                string data = JsonConvert.SerializeObject(team);
+                var result = _client.UploadString("teams/update/" + Id, data);
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when updating the team, try a different name or try again.");
+                return View("Exception", Exception);
             }
 
-            return null;
-
+            return Redirect("Index");
         }
 
         public IActionResult Delete(int id)
@@ -84,7 +90,16 @@ namespace RacingApp.UI.Controllers
         }
         public IActionResult DeleteTeam(int id)
         {
-            _client.UploadString("teams/delete/" + id, "POST", "");
+            try
+            {
+                _client.UploadString("teams/delete/" + id, "POST", "");
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when deleting the team, make sure there is no connection to a race or pilot.");
+                return View("Exception", Exception);
+            }
+            
             return Redirect("Index");
 
         }

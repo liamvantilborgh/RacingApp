@@ -94,15 +94,17 @@ namespace RacingApp.UI.Controllers
             {
                 serie.Active = true;
             }
-            string data = JsonConvert.SerializeObject(serie);
-            var result = _client.UploadString("series/update/" + Id, data);
-
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                string data = JsonConvert.SerializeObject(serie);
+                var result = _client.UploadString("series/update/" + Id, data);
             }
-
-            return null;
+            catch (Exception E)
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when updating the series, try a different name or try again.");
+                return View("Exception", Exception);
+            }
+            return Redirect("Index");
         }
 
         public IActionResult Delete(int id)
@@ -115,9 +117,16 @@ namespace RacingApp.UI.Controllers
         }
         public IActionResult DeleteSeries(int id)
         {
-            _client.UploadString("series/delete/" + id, "POST", "");
-            return Redirect("Index");
-
+            try
+            {
+                _client.UploadString("series/delete/" + id, "POST", "");
+                return Redirect("Index");
+            }
+            catch (Exception E)
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when deleting the series, make sure no season is connected to this series.");
+                return View("Exception", Exception);
+            }
         }
 
         public void GetWebClient()

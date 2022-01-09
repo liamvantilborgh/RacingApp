@@ -2,6 +2,7 @@
 using Nancy.Json;
 using Newtonsoft.Json;
 using RacingApp.Core.DTO_S;
+using RacingApp.UI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,15 +34,17 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult Add(CountryDTO country)
         {
-            string data = JsonConvert.SerializeObject(country);
-            var result = _client.UploadString("countries/add", data);
-
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                string data = JsonConvert.SerializeObject(country);
+                var result = _client.UploadString("countries/add", data);
             }
-
-            return null;
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when creating the country, try a different name or try again.");
+                return View("Exception", Exception);
+            }
+            return Redirect("Index");
         }
 
         public IActionResult Details(int id)
@@ -63,16 +66,17 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult EditCountry(int Id, CountryDTO country)
         {
-            string data = JsonConvert.SerializeObject(country);
-            var result = _client.UploadString(_client.BaseAddress + "countries/update/" + Id, data);
-
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                string data = JsonConvert.SerializeObject(country);
+                var result = _client.UploadString(_client.BaseAddress + "countries/update/" + Id, data);
             }
-
-            return null;
-
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when updating the country, try a different name or try again.");
+                return View("Exception", Exception);
+            }
+            return Redirect("Index");
         }
 
         public IActionResult Delete(int id)
@@ -85,7 +89,15 @@ namespace RacingApp.UI.Controllers
         }
         public IActionResult DeleteCountry(int id)
         {
-            _client.UploadString(_client.BaseAddress + "countries/delete/" + id, "POST", "");
+            try
+            {
+                _client.UploadString(_client.BaseAddress + "countries/delete/" + id, "POST", "");
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when deleting the country, make sure no circuit is connected to this country.");
+                return View("Exception", Exception);
+            }
             return Redirect("Index");
 
         }

@@ -49,12 +49,16 @@ namespace RacingApp.UI.Controllers
                 var km = Math.Round(circuitCountry.LengthMiles * 1.609344);
                 circuitToAdd.Length_Circuit = (int)km;
             }
-            var result = _client.UploadString("circuits/add", JsonConvert.SerializeObject(circuitToAdd));
 
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                var result = _client.UploadString("circuits/add", JsonConvert.SerializeObject(circuitToAdd));
             }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when creating the circuit, try a different name or try again.");
+                return View("Exception", Exception);
+            }       
             return Redirect("Index");
         }
 
@@ -89,11 +93,15 @@ namespace RacingApp.UI.Controllers
             }
             //need to acces an internal property from custom class otherwise it tries to put a string id in a int prop
             circuitToEdit.CountryId = int.Parse(circuitCountry.CountryId);
-            var result = _client.UploadString("circuits/update/" + Id, JsonConvert.SerializeObject(circuitToEdit));
 
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                var result = _client.UploadString("circuits/update/" + Id, JsonConvert.SerializeObject(circuitToEdit));
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when updating the circuit, try a different name or try again.");
+                return View("Exception", Exception);
             }
             return Redirect("Index");
         }

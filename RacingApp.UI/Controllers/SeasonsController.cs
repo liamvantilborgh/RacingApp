@@ -40,14 +40,17 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult Add(SeasonsSerie seasonSerie)
         {
-            SeasonsDTO seaonsToAdd = seasonSerie.Season;
+            SeasonsDTO seasonsToAdd = seasonSerie.Season;
             //need to acces an internal property from custom class otherwise it tries to put a string id in a int prop
-            seaonsToAdd.SeriesId = int.Parse(seasonSerie.SeriesId);
-            var result = _client.UploadString("seasons/add", JsonConvert.SerializeObject(seaonsToAdd));
-
-            if (result.Length > 0)
+            seasonsToAdd.SeriesId = int.Parse(seasonSerie.SeriesId);
+            try
             {
-                return Redirect("Index");
+                var result = _client.UploadString("seasons/add", JsonConvert.SerializeObject(seasonsToAdd));
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when creating the season, try a different name or try again.");
+                return View("Exception", Exception);
             }
             return Redirect("Index");
         }
@@ -78,11 +81,14 @@ namespace RacingApp.UI.Controllers
             SeasonsDTO seasonToEdit = seasonSerie.Season;
             //need to acces an internal property from custom class otherwise it tries to put a string id in a int prop
             seasonToEdit.SeriesId = int.Parse(seasonSerie.SeriesId);
-            var result = _client.UploadString("seasons/update/" + Id, JsonConvert.SerializeObject(seasonToEdit));
-
-            if (result.Length > 0)
+            try
             {
-                return Redirect("Index");
+                var result = _client.UploadString("seasons/update/" + Id, JsonConvert.SerializeObject(seasonToEdit));
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when updating the season, try a different name or try again.");
+                return View("Exception", Exception);
             }
             return Redirect("Index");
         }
@@ -98,7 +104,15 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult DeleteSeason(int id)
         {
-            _client.UploadString("seasons/delete/" + id, "POST", "");
+            try
+            {
+                _client.UploadString("seasons/delete/" + id, "POST", "");
+            }
+            catch
+            {
+                ExceptionModel Exception = new ExceptionModel("Something went wrong when deleting the season, please make sure no race is connected to this season.");
+                return View("Exception", Exception);
+            }
             return Redirect("Index");
 
         }
