@@ -21,12 +21,36 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchStringCountry, string searchStringName, int? pageNumber)
         {
+            //so it knows what i'm trying to filter 
+            ViewData["CurrentFilterCountry"] = searchStringCountry;
+            ViewData["CurrentFilterName"] = searchStringName;
+
+            //get all the circuits
             string json = _client.DownloadString("circuits");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<CircuitsDTO>>(json);
+
+            //reset page number to 1 when you filter a row
+            if (searchStringName != null || searchStringCountry != null)
+            {
+                pageNumber = 1;
+            }
+
+            //the actual filtering
+            if (!String.IsNullOrEmpty(searchStringName))
+            {
+                result = result.Where(s => s.Name.ToLower().Contains(searchStringName.ToLower()));
+            }
+            if (!String.IsNullOrEmpty(searchStringCountry))
+            {
+                result = result.Where(s => s.Country.Name.ToLower().Contains(searchStringCountry.ToLower()));
+            }
+
             result = result.OrderBy(r => r.Country.Name).ThenBy(r => r.Name);
-            return View("Index", result);
+            //here you can edit the amount of results per page
+            int pageSize = 50;
+            return View("Index", PaginatedList<CircuitsDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
 
         public IActionResult Create()

@@ -23,7 +23,7 @@ namespace RacingApp.UI.Controllers
 
         public IActionResult Index(string sortOrder, string searchStringName, string searchStringFirstName, string searchStringLicenseNumber, int? pageNumber)
         {
-            //so it nows what i'm trying to filter or sort
+            //so it knows what i'm trying to filter or sort
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["FirstNameSortParm"] = sortOrder == "firstname" ? "firstname_desc" : "firstname";

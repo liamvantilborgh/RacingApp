@@ -20,10 +20,23 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string searchStringSerie, DateTime? searchStringStartDate, string searchStringActive, int? pageNumber)
         {
+            //so it knows what i'm trying to filter or sort
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["StartDateSortParm"] = String.IsNullOrEmpty(sortOrder) ? "startdate_desc" : "";
+            ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
+            ViewData["EndDateSortParm"] = sortOrder == "enddate" ? "enddate_desc" : "enddate";
+            ViewData["SeriesSortParm"] = sortOrder == "series" ? "series_desc" : "series";
+            ViewData["ActiveSortParm"] = sortOrder == "active" ? "active_desc" : "active";
+            ViewData["CurrentFilterSerie"] = searchStringSerie;
+            ViewData["CurrentFilterStartDate"] = searchStringStartDate;
+            ViewData["CurrentFilterActive"] = searchStringActive;
+
+            //get all the seasons
             string json = _client.DownloadString("seasons");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<SeasonsDTO>>(json);
+
             //update active everytime list is called
             foreach (var s in result)
             {
@@ -37,8 +50,72 @@ namespace RacingApp.UI.Controllers
                 }
             }
 
-            result = result.OrderBy(r => r.Startdate);
-            return View("Index", result);
+            //reset page number to 1 when you filter a row
+            if (searchStringSerie != null || searchStringStartDate != null || searchStringActive != null)
+            {
+                pageNumber = 1;
+            }
+
+            //the actual filtering
+            if (!String.IsNullOrEmpty(searchStringSerie))
+            {
+                result = result.Where(s => s.Series.Name.ToLower().Contains(searchStringSerie.ToLower()));
+            }
+            if(searchStringStartDate.HasValue)
+            {
+                result = result.Where(s => s.Startdate == searchStringStartDate);
+            }
+            if (!String.IsNullOrEmpty(searchStringActive))
+            {
+                //can later make it a dropdown in view
+                if (searchStringActive.ToLower() == "active")
+                {
+                    result = result.Where(s => s.Active == true);
+                }
+                else if (searchStringActive.ToLower() == "inactive")
+                {
+                    result = result.Where(s => s.Active == false);
+                }
+            }
+
+            //sorting
+            switch (sortOrder)
+            {
+                case "startdate_desc":
+                    result = result.OrderByDescending(s => s.Startdate);
+                    break;
+                case "name":
+                    result = result.OrderBy(s => s.Name);
+                    break;
+                case "name_desc":
+                    result = result.OrderByDescending(s => s.Name);
+                    break;
+                case "enddate":
+                    result = result.OrderBy(s => s.Enddate);
+                    break;
+                case "enddate_desc":
+                    result = result.OrderByDescending(s => s.Enddate);
+                    break;
+                case "series":
+                    result = result.OrderBy(s => s.Series.Name);
+                    break;
+                case "series_desc":
+                    result = result.OrderByDescending(s => s.Series.Name);
+                    break;
+                case "active":
+                    result = result.OrderBy(s => s.Active);
+                    break;
+                case "active_desc":
+                    result = result.OrderByDescending(s => s.Active);
+                    break;
+                default:
+                    result = result.OrderBy(r => r.Startdate);
+                    break;
+            }
+
+            //here you can edit the amount of results per page
+            int pageSize = 50;
+            return View("Index", PaginatedList<SeasonsDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
 
         public IActionResult Create()

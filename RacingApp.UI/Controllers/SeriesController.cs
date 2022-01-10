@@ -21,10 +21,15 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString, string currentFilter, int? pageNumber)
         {
+            //so it knows what i'm trying to filter 
+            ViewData["CurrentFilter"] = searchString;
+
+            //get all the series
             string json = _client.DownloadString("series");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<SeriesDTO>>(json);
+
             //update active everytime list is called
             foreach (var s in result)
             {
@@ -37,8 +42,27 @@ namespace RacingApp.UI.Controllers
                     s.Active = true;
                 }
             }
+
+            //reset page number to 1 when you filter a row
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            //the actual filtering
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                result = result.Where(s => s.Name.ToLower().Contains(searchString.ToLower()));
+            }
+            //sorting
             result = result.OrderBy(r => r.Sort_Order).ThenBy(r => r.Name);
-            return View("Index", result);
+
+            int pageSize = 50;
+            return View("Index", PaginatedList<SeriesDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
         public IActionResult Create()
         {

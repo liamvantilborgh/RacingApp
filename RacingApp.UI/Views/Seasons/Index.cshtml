@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RacingApp.Core.DTO_S.SeasonsDTO>
+﻿@model PaginatedList<RacingApp.Core.DTO_S.SeasonsDTO>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,51 +9,96 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by serie: <input type="text" name="searchStringSerie" value="@ViewData["CurrentFilterSerie"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by startdate: <input type="date" name="searchStringStartDate" value="@ViewData["CurrentFilterStartDate"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by active(active/inactive): <input type="text" name="searchStringActive" value="@ViewData["CurrentFilterActive"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Series)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["SeriesSortParm"]">Series</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Startdate)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["StartDateSortParm"]">StartDate</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Enddate)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["EndDateSortParm"]">Enddate</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Active)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ActiveSortParm"]">Active</a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Series.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Startdate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Enddate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Series.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Startdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Enddate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Active)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
