@@ -20,12 +20,15 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? pageNumber)
         {
             string json = _client.DownloadString("teams");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<TeamsDTO>>(json);
             result = result.OrderBy(r => r.Name);
-            return View("Index", result);
+
+            //here you can edit the amount of results per page
+            int pageSize = 50;
+            return View("Index", PaginatedList<TeamsDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
         public IActionResult Create()
         {

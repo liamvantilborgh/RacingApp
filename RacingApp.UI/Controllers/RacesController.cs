@@ -21,12 +21,37 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchStringSeason, string searchStringName, int? pageNumber)
         {
+            //so it knows what i'm trying to filter 
+            ViewData["CurrentFilterSeason"] = searchStringSeason;
+            ViewData["CurrentFilterName"] = searchStringName;
+
+            //get all the races
             string json = _client.DownloadString("races");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<RacesDTO>>(json);
+
+            //reset page number to 1 when you filter a row
+            if (searchStringName != null || searchStringSeason != null)
+            {
+                pageNumber = 1;
+            }
+
+            //the actual filtering
+            if (!String.IsNullOrEmpty(searchStringSeason))
+            {
+                result = result.Where(s => s.Season.Name.ToLower().Contains(searchStringSeason.ToLower()));
+            }
+            if (!String.IsNullOrEmpty(searchStringName))
+            {
+                result = result.Where(s => s.Name.ToLower().Contains(searchStringName.ToLower()));
+            }
+            
             result = result.OrderBy(r => r.Startdate);
-            return View("Index", result);
+
+            //here you can edit the amount of results per page
+            int pageSize = 50;
+            return View("Index", PaginatedList<RacesDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
 
         public IActionResult Create()
@@ -61,16 +86,33 @@ namespace RacingApp.UI.Controllers
             return Redirect("Index");
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string searchString, int? pageNumber)
         {
             string json = _client.DownloadString("races/" + id);
             var result = (new JavaScriptSerializer()).Deserialize<RacesDTO>(json);
 
+            //so it knows what i'm trying to filter, here I filter on teams that are connected to a certain race
+            ViewData["CurrentFilter"] = searchString;
+
             string json2 = _client.DownloadString("pilotraceteam/GetTeamsByRaceId/" + id);
             var pilotRaceTeams = new JavaScriptSerializer().Deserialize<IEnumerable<PilotRaceTeamDTO>>(json2);
+
+            //reset page number to 1 when you filter a row
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+
+            //the actual filtering
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                pilotRaceTeams = pilotRaceTeams.Where(s => s.Team.Name.ToLower().Contains(searchString.ToLower()));
+            }
+
             pilotRaceTeams = pilotRaceTeams.OrderBy(r => r.Team.Name).ThenBy(r => r.Pilot.Name);
 
-            PilotRaceTeamModel pilotRaceTeamModel = new PilotRaceTeamModel(result, pilotRaceTeams);
+            int pageSize = 50;
+            PilotRaceTeamModel pilotRaceTeamModel = new PilotRaceTeamModel(result, PaginatedList<PilotRaceTeamDTO>.CreateAsync(pilotRaceTeams.AsQueryable(), pageNumber ?? 1, pageSize));
 
             return View("Details", pilotRaceTeamModel);
         }

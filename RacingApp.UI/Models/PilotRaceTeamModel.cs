@@ -9,8 +9,8 @@ namespace RacingApp.UI.Models
     public class PilotRaceTeamModel
     {
         public RacesDTO Race;
-        public IEnumerable<PilotRaceTeamDTO> PilotRaceTeams;
-        public PilotRaceTeamModel(RacesDTO race, IEnumerable<PilotRaceTeamDTO> pilotRaceTeams)
+        public PaginatedList<PilotRaceTeamDTO> PilotRaceTeams;
+        public PilotRaceTeamModel(RacesDTO race, PaginatedList<PilotRaceTeamDTO> pilotRaceTeams)
         {
             Race = race;
             PilotRaceTeams = pilotRaceTeams;

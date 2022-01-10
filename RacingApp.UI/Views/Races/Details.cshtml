@@ -56,6 +56,15 @@
 
 <div>
     <h4>Teams and Pilots participating in Race @Model.Race.Name </h4>
+    <form asp-action="Details" method="get">
+        <div class="form-actions no-color">
+            <p>
+                Find by team: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-default" /> |
+                <a asp-action="Details">Back to Full List</a>
+            </p>
+        </div>
+    </form>
 
     <table class="table">
         <thead>
@@ -78,7 +87,7 @@
 
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Pilot.Name) 
+                        @Html.DisplayFor(modelItem => item.Pilot.Name)
                         @Html.DisplayFor(modelItem => item.Pilot.FirstName)
                     </td>
 
@@ -89,4 +98,19 @@
             }
         </tbody>
     </table>
+    @{
+        var prevDisabled = !Model.PilotRaceTeams.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.PilotRaceTeams.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="Details"
+       asp-route-pageNumber="@(Model.PilotRaceTeams.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Details"
+       asp-route-pageNumber="@(Model.PilotRaceTeams.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
 </div>
