@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RacingApp.Core.DTO_S.PilotsDTO>
+﻿@model PaginatedList<RacingApp.Core.DTO_S.PilotsDTO>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,20 +9,47 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="searchStringName" value="@ViewData["CurrentFilterName"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by First Name: <input type="text" name="searchStringFirstName" value="@ViewData["CurrentFilterFirstName"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by License Number: <input type="text" name="searchStringLicenseNumber" value="@ViewData["CurrentFilterLicenseNumber"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["FirstNameSortParm"]">FirstName</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NickName)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NickNameSortParm"]">NickName</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LicenseNumber)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["LicenseNumberSortParm"]">LicenseNumber</a>
             </th>
             <th>
                 Photo
@@ -31,29 +58,47 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NickName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LicenseNumber)
-            </td>
-            <td>             
-                <img src=@Html.DisplayFor(modelItem => item.PhotoRelativePath) alt="RacingApp/RacingApp.UI/Images/PilotAlt.png" />
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NickName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LicenseNumber)
+                </td>
+                <td>
+                    <img src=@Html.DisplayFor(modelItem => item.PhotoRelativePath) alt="RacingApp/RacingApp.UI/Images/PilotAlt.png" />
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

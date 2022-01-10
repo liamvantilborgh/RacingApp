@@ -21,12 +21,74 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string searchStringName, string searchStringFirstName, string searchStringLicenseNumber, int? pageNumber)
         {
+            //so it nows what i'm trying to filter or sort
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["FirstNameSortParm"] = sortOrder == "firstname" ? "firstname_desc" : "firstname";
+            ViewData["NickNameSortParm"] = sortOrder == "nickname" ? "nickname_desc" : "nickname";
+            ViewData["LicenseNumberSortParm"] = sortOrder == "licensenumber" ? "licensenumber_desc" : "licensenumber";
+            ViewData["CurrentFilterName"] = searchStringName;
+            ViewData["CurrentFilterFirstName"] = searchStringFirstName;
+            ViewData["CurrentFilterLicenseNumber"] = searchStringLicenseNumber;
+
+            //get all the pilots
             string json = _client.DownloadString("pilots");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<PilotsDTO>>(json);
-            result = result.OrderBy(r => r.Name);
-            return View("Index", result);
+
+            //reset page number to 1 when you filter a row
+            if (searchStringName != null || searchStringFirstName != null || searchStringLicenseNumber != null)
+            {
+                pageNumber = 1;
+            }
+
+            //the actual filtering
+            if (!String.IsNullOrEmpty(searchStringName))
+            {
+                result = result.Where(s => s.Name.ToLower().Contains(searchStringName.ToLower()));
+            }
+            if (!String.IsNullOrEmpty(searchStringFirstName))
+            {
+                result = result.Where(s => s.FirstName.ToLower().Contains(searchStringFirstName.ToLower()));
+            }
+            if (!String.IsNullOrEmpty(searchStringLicenseNumber))
+            {
+                result = result.Where(s => s.LicenseNumber.ToLower().Contains(searchStringLicenseNumber.ToLower()));
+            }
+
+            //sorting
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    result = result.OrderByDescending(s => s.Name);
+                    break;
+                case "firstname":
+                    result = result.OrderBy(s => s.FirstName);
+                    break;
+                case "firstname_desc":
+                    result = result.OrderByDescending(s => s.FirstName);
+                    break;
+                case "nickname":
+                    result = result.OrderBy(s => s.NickName);
+                    break;
+                case "nickname_desc":
+                    result = result.OrderByDescending(s => s.NickName);
+                    break;
+                case "licensenumber":
+                    result = result.OrderBy(s => s.LicenseNumber);
+                    break;
+                case "licensenumber_desc":
+                    result = result.OrderByDescending(s => s.LicenseNumber);
+                    break;
+                default:
+                    result = result.OrderBy(s => s.Name);
+                    break;
+            }
+
+            //here you can edit the amount of results per page
+            int pageSize = 50;
+            return View("Index", PaginatedList<PilotsDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
 
         public IActionResult Create()
