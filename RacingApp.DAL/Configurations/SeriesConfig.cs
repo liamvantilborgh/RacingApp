@@ -33,8 +33,7 @@ namespace RacingApp.DAL.Configurations
                 .IsRequired();
 
             builder
-                .Property(Series => Series.Enddate)
-                .IsRequired();
+                .Property(Series => Series.Enddate);
 
             builder
                 .ToTable("Series");

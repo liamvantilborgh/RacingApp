@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RacingApp.DAL.Migrations
 {
-    public partial class activeseason : Migration
+    public partial class seriesdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,7 +51,7 @@ namespace RacingApp.DAL.Migrations
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     Sort_Order = table.Column<int>(type: "int", nullable: false),
                     Startdate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Enddate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Enddate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

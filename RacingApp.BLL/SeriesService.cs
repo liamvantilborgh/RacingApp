@@ -37,17 +37,37 @@ namespace RacingApp.BLL
 
         public void Add(SeriesDTO series)
         {
-            if (series.Name != null && series.Startdate < series.Enddate)
+            if (series.Name != null)
             {
-                _unitOfWork.Series.AddAsync(_mapper.Map<SeriesDTO, Series>(series));
-                _unitOfWork.CommitAsync();                          
+                if (series.Enddate != null)
+                {
+                    if (series.Startdate < series.Enddate)
+                    {
+                        _unitOfWork.Series.AddAsync(_mapper.Map<SeriesDTO, Series>(series));
+                        _unitOfWork.CommitAsync();
+                    }
+                    else throw new Exception("Date is not valid");
+                }
+                else
+                {
+                    if(series.Startdate <= DateTime.Today)
+                    {
+                        series.Active = true;
+                    }
+                    else
+                    {
+                        series.Active = false;
+                    }
+                    _unitOfWork.Series.AddAsync(_mapper.Map<SeriesDTO, Series>(series));
+                    _unitOfWork.CommitAsync();
+                }                       
             }
             else throw new Exception("Series data is not valid");
         }
 
         public void Update(int id, SeriesDTO series)
         {
-            if (series.Name != null && series.Startdate < series.Enddate)
+            if (series.Name != null)
             {
                 var seriesToUpdate = _unitOfWork.Series.GetById(id);
                 if (seriesToUpdate != null)
@@ -56,9 +76,22 @@ namespace RacingApp.BLL
                     seriesToUpdate.Active = series.Active;
                     seriesToUpdate.Sort_Order = (int)series.Sort_Order;
                     seriesToUpdate.Startdate = series.Startdate;
-                    seriesToUpdate.Enddate = series.Enddate;
-                    _unitOfWork.Series.Update(seriesToUpdate);
-                    _unitOfWork.CommitAsync();
+                    if (series.Enddate != null)
+                    {
+                        if (series.Startdate < series.Enddate)
+                        {
+                            seriesToUpdate.Enddate = (DateTime)series.Enddate;
+                            _unitOfWork.Series.Update(seriesToUpdate);
+                            _unitOfWork.CommitAsync();
+                        }
+                        else throw new Exception("Date is not valid");
+                    }
+                    else
+                    {
+                        _unitOfWork.Series.Update(seriesToUpdate);
+                        _unitOfWork.CommitAsync();
+                    }
+                    
                 }
                 else throw new Exception($"Series with id: {id} could not be found");
 

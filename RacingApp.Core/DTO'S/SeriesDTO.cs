@@ -13,7 +13,7 @@ namespace RacingApp.Core.DTO_S
         public bool Active { get; set; }      
         public int? Sort_Order { get; set; }
         public DateTime Startdate { get; set; }
-        public DateTime Enddate { get; set; }
+        public DateTime? Enddate { get; set; }
         public List<SeasonsDTO> Seasons { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using RacingApp.DAL.Data;
 namespace RacingApp.DAL.Migrations
 {
     [DbContext(typeof(RacingAppContext))]
-    [Migration("20220109124416_activeseason")]
-    partial class activeseason
+    [Migration("20220110152634_seriesdate")]
+    partial class seriesdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -237,7 +237,7 @@ namespace RacingApp.DAL.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("Enddate")
+                    b.Property<DateTime?>("Enddate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")

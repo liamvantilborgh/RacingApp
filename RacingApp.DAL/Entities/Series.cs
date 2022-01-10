@@ -13,7 +13,7 @@ namespace RacingApp.DAL.Entities
         public bool Active { get; set; }
         public int Sort_Order { get; set; }
         public DateTime Startdate { get; set; }
-        public DateTime Enddate { get; set; }
+        public DateTime? Enddate { get; set; }
         public ICollection<Seasons> Seasons { get; set; }
         public Series()
         {

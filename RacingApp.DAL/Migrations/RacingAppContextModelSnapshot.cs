@@ -235,7 +235,7 @@ namespace RacingApp.DAL.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("Enddate")
+                    b.Property<DateTime?>("Enddate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
