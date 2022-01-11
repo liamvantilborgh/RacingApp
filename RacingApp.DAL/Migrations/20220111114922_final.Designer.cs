@@ -10,8 +10,8 @@ using RacingApp.DAL.Data;
 namespace RacingApp.DAL.Migrations
 {
     [DbContext(typeof(RacingAppContext))]
-    [Migration("20220110152634_seriesdate")]
-    partial class seriesdate
+    [Migration("20220111114922_final")]
+    partial class final
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

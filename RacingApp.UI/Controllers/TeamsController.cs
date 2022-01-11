@@ -20,14 +20,37 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index(int? pageNumber)
+        public IActionResult Index(int? pageNumber, int currentSize, int? customSize)
         {
+            ViewData["CurrentPageSize"] = customSize;
+
+            //to make sure the standard pagesize is 50
+            int pageSize = 50;
+            if (currentSize == 0)
+            {
+                currentSize = pageSize;
+            }
+
             string json = _client.DownloadString("teams");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<TeamsDTO>>(json);
+            //remembers custom page size when switch pages
+            if (customSize != null)
+            {
+                pageSize = 1;
+            }
+            else
+            {
+                customSize = currentSize;
+            }
+
+            if (customSize.HasValue)
+            {
+                pageSize = (int)customSize;
+            }
+            ViewData["Currentsize"] = customSize;
+
             result = result.OrderBy(r => r.Name);
 
-            //here you can edit the amount of results per page
-            int pageSize = 50;
             return View("Index", PaginatedList<TeamsDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
         public IActionResult Create()

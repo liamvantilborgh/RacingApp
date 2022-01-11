@@ -21,10 +21,18 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index(string searchString, string currentFilter, int? pageNumber)
+        public IActionResult Index(string searchString, string currentFilter, int? pageNumber, int currentSize, int? customSize)
         {
             //so it knows what i'm trying to filter 
             ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentPageSize"] = customSize;
+
+            //to make sure the standard pagesize is 50
+            int pageSize = 50;
+            if (currentSize == 0)
+            {
+                currentSize = pageSize;
+            }
 
             //get all the series
             string json = _client.DownloadString("series");
@@ -52,16 +60,30 @@ namespace RacingApp.UI.Controllers
             {
                 searchString = currentFilter;
             }
+            if (customSize != null)
+            {
+                pageSize = 1;
+            }
+            else
+            {
+                customSize = currentSize;
+            }
+
+            ViewData["Currentsize"] = customSize;
 
             //the actual filtering
             if (!String.IsNullOrEmpty(searchString))
             {
                 result = result.Where(s => s.Name.ToLower().Contains(searchString.ToLower()));
             }
+            if (customSize.HasValue)
+            {
+                pageSize = (int)customSize;
+            }
+
             //sorting
             result = result.OrderBy(r => r.Sort_Order).ThenBy(r => r.Name);
 
-            int pageSize = 50;
             return View("Index", PaginatedList<SeriesDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
         public IActionResult Create()

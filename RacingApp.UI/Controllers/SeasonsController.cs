@@ -20,7 +20,7 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index(string sortOrder, string searchStringSerie, DateTime? searchStringStartDate, string searchStringActive, int? pageNumber)
+        public IActionResult Index(string sortOrder, string currentFilter, string searchStringSerie, DateTime? searchStringStartDate, string searchStringActive, int? pageNumber, int currentSize, int? customSize)
         {
             //so it knows what i'm trying to filter or sort
             ViewData["CurrentSort"] = sortOrder;
@@ -32,6 +32,14 @@ namespace RacingApp.UI.Controllers
             ViewData["CurrentFilterSerie"] = searchStringSerie;
             ViewData["CurrentFilterStartDate"] = searchStringStartDate;
             ViewData["CurrentFilterActive"] = searchStringActive;
+            ViewData["CurrentPageSize"] = customSize;
+
+            //to make sure the standard pagesize is 50
+            int pageSize = 50;
+            if (currentSize == 0)
+            {
+                currentSize = pageSize;
+            }
 
             //get all the seasons
             string json = _client.DownloadString("seasons");
@@ -55,6 +63,39 @@ namespace RacingApp.UI.Controllers
             {
                 pageNumber = 1;
             }
+            else
+            {
+                searchStringSerie = currentFilter;
+            }
+            if (searchStringStartDate != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                try
+                {
+                    searchStringStartDate = DateTime.Parse(currentFilter);
+                }
+                catch { }
+            }
+            if (searchStringActive != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchStringActive = currentFilter;
+            }
+            //remembers custom page size when switch pages
+            if (customSize != null)
+            {
+                pageSize = 1;
+            }
+            else
+            {
+                customSize = currentSize;
+            }
 
             //the actual filtering
             if (!String.IsNullOrEmpty(searchStringSerie))
@@ -76,6 +117,10 @@ namespace RacingApp.UI.Controllers
                 {
                     result = result.Where(s => s.Active == false);
                 }
+            }
+            if (customSize.HasValue)
+            {
+                pageSize = (int)customSize;
             }
 
             //sorting
@@ -114,7 +159,6 @@ namespace RacingApp.UI.Controllers
             }
 
             //here you can edit the amount of results per page
-            int pageSize = 50;
             return View("Index", PaginatedList<SeasonsDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
 

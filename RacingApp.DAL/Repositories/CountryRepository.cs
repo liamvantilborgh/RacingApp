@@ -1,4 +1,5 @@
-﻿using RacingApp.DAL.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RacingApp.DAL.Data;
 using RacingApp.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,11 @@ namespace RacingApp.DAL.Repositories
         public CountryRepository(RacingAppContext context) : base(context)
         {
             _context = context;
+        }
+
+        public void DeleteWithStoredProcedure(int id)
+        {
+            _context.Database.ExecuteSqlInterpolated($"[dbo].[DeleteCountry] {id}");
         }
     }
 }

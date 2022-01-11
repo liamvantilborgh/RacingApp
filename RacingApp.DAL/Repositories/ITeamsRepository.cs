@@ -9,5 +9,6 @@ namespace RacingApp.DAL.Repositories
 {
     public interface ITeamsRepository : IRepository<Teams>
     {
+        public void DeleteWithInlineQuery(int id);
     }
 }

@@ -67,7 +67,9 @@ namespace RacingApp.BLL
             var countryToDelete = _unitOfWork.Countries.GetById(id);
             if (countryToDelete != null)
             {
-                _unitOfWork.Countries.Remove(countryToDelete);
+                //_unitOfWork.Countries.Remove(countryToDelete);
+                //here I execute the stored procedure that we needed to make
+                _unitOfWork.Countries.DeleteWithStoredProcedure(id);
                 _unitOfWork.CommitAsync();
             }
             else throw new Exception($"Country with id: {id} could not be found");

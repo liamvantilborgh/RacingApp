@@ -40,16 +40,16 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]"asp-route-currentSize="@ViewData["Currentsize"]">Name</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["FirstNameSortParm"]">FirstName</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["FirstNameSortParm"]"asp-route-currentSize="@ViewData["Currentsize"]">FirstName</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NickNameSortParm"]">NickName</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NickNameSortParm"]"asp-route-currentSize="@ViewData["Currentsize"]">NickName</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["LicenseNumberSortParm"]">LicenseNumber</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["LicenseNumberSortParm"]"asp-route-currentSize="@ViewData["Currentsize"]">LicenseNumber</a>
             </th>
             <th>
                 Photo
@@ -74,7 +74,7 @@
                     @Html.DisplayFor(modelItem => item.LicenseNumber)
                 </td>
                 <td>
-                    <img src=@Html.DisplayFor(modelItem => item.PhotoRelativePath) alt="RacingApp/RacingApp.UI/Images/PilotAlt.png" />
+                    @Html.DisplayFor(modelItem => item.PhotoRelativePath)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -93,12 +93,25 @@
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentSize="@ViewData["Currentsize"]"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @prevDisabled">
     Previous
 </a>
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentSize="@ViewData["Currentsize"]"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @nextDisabled">
     Next
 </a>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Page size: <input type="text" name="customSize" value="@ViewData["CurrentPageSize"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to normal page size</a>
+        </p>
+    </div>
+</form>

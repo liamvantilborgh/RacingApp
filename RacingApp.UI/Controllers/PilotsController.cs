@@ -21,7 +21,7 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index(string sortOrder, string searchStringName, string searchStringFirstName, string searchStringLicenseNumber, int? pageNumber)
+        public IActionResult Index(string sortOrder, string currentFilter, string searchStringName, string searchStringFirstName, string searchStringLicenseNumber, int? pageNumber, int currentSize, int? customSize)
         {
             //so it knows what i'm trying to filter or sort
             ViewData["CurrentSort"] = sortOrder;
@@ -32,16 +32,56 @@ namespace RacingApp.UI.Controllers
             ViewData["CurrentFilterName"] = searchStringName;
             ViewData["CurrentFilterFirstName"] = searchStringFirstName;
             ViewData["CurrentFilterLicenseNumber"] = searchStringLicenseNumber;
+            ViewData["CurrentPageSize"] = customSize;
+
+            //to make sure the standard pagesize is 50
+            int pageSize = 50;
+            if(currentSize == 0)
+            {
+                currentSize = pageSize;
+            }
 
             //get all the pilots
             string json = _client.DownloadString("pilots");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<PilotsDTO>>(json);
 
             //reset page number to 1 when you filter a row
-            if (searchStringName != null || searchStringFirstName != null || searchStringLicenseNumber != null)
+            if (searchStringName != null)
             {
                 pageNumber = 1;
             }
+            else
+            {
+                searchStringName = currentFilter;
+            }
+            if (searchStringFirstName != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchStringFirstName = currentFilter;
+            }
+            if (searchStringLicenseNumber != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchStringLicenseNumber = currentFilter;
+            }
+            //remembers custom page size when switch pages
+            if (customSize != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                customSize = currentSize;
+            }
+
+            ViewData["Currentsize"] = customSize;
+            ViewData["CurrentFilter"] = currentFilter;
 
             //the actual filtering
             if (!String.IsNullOrEmpty(searchStringName))
@@ -55,6 +95,10 @@ namespace RacingApp.UI.Controllers
             if (!String.IsNullOrEmpty(searchStringLicenseNumber))
             {
                 result = result.Where(s => s.LicenseNumber.ToLower().Contains(searchStringLicenseNumber.ToLower()));
+            }
+            if (customSize.HasValue)
+            {
+                pageSize = (int)customSize;
             }
 
             //sorting
@@ -85,9 +129,7 @@ namespace RacingApp.UI.Controllers
                     result = result.OrderBy(s => s.Name);
                     break;
             }
-
-            //here you can edit the amount of results per page
-            int pageSize = 50;
+     
             return View("Index", PaginatedList<PilotsDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
 

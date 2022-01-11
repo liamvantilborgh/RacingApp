@@ -1,4 +1,6 @@
-﻿using RacingApp.DAL.Data;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using RacingApp.DAL.Data;
 using RacingApp.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,14 @@ namespace RacingApp.DAL.Repositories
         public TeamsRepository(RacingAppContext context) : base(context)
         {
             _context = context;
+        }
+
+        public void DeleteWithInlineQuery(int id)
+        {
+            var query = $"DELETE FROM [dbo].[Teams] WHERE id=(@id)";
+            var param = new SqlParameter("@id", id);
+
+            _context.Database.ExecuteSqlRaw(query, param);
         }
     }
 }

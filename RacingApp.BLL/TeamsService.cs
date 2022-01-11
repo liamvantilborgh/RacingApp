@@ -68,7 +68,9 @@ namespace RacingApp.BLL
             var teamToDelete = _unitOfWork.Teams.GetById(id);
             if (teamToDelete != null)
             {
-                _unitOfWork.Teams.Remove(teamToDelete);
+                //_unitOfWork.Teams.Remove(teamToDelete);
+                //hier delete een team met de inline query die we moesten maken
+                _unitOfWork.Teams.DeleteWithInlineQuery(id);
                 _unitOfWork.CommitAsync();
             }
             else throw new Exception($"Team with id: {id} could not be found");

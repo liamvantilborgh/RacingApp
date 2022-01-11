@@ -21,21 +21,53 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index(string searchStringCountry, string searchStringName, int? pageNumber)
+        public IActionResult Index(string currentFilter, string searchStringCountry, string searchStringName, int? pageNumber, int currentSize, int? customSize)
         {
             //so it knows what i'm trying to filter 
             ViewData["CurrentFilterCountry"] = searchStringCountry;
             ViewData["CurrentFilterName"] = searchStringName;
+            ViewData["CurrentPageSize"] = customSize;
+
+            //to make sure the standard pagesize is 50
+            int pageSize = 50;
+            if (currentSize == 0)
+            {
+                currentSize = pageSize;
+            }
 
             //get all the circuits
             string json = _client.DownloadString("circuits");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<CircuitsDTO>>(json);
 
             //reset page number to 1 when you filter a row
-            if (searchStringName != null || searchStringCountry != null)
+            if (searchStringName != null)
             {
                 pageNumber = 1;
             }
+            else
+            {
+                searchStringName = currentFilter;
+            }
+            if (searchStringCountry != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchStringCountry = currentFilter;
+            }
+            //remembers custom page size when switch pages
+            if (customSize != null)
+            {
+                pageSize = 1;
+            }
+            else
+            {
+                customSize = currentSize;
+            }
+
+            ViewData["Currentsize"] = customSize;
+            ViewData["CurrentFilter"] = currentFilter;
 
             //the actual filtering
             if (!String.IsNullOrEmpty(searchStringName))
@@ -46,10 +78,13 @@ namespace RacingApp.UI.Controllers
             {
                 result = result.Where(s => s.Country.Name.ToLower().Contains(searchStringCountry.ToLower()));
             }
+            if (customSize.HasValue)
+            {
+                pageSize = (int)customSize;
+            }
 
             result = result.OrderBy(r => r.Country.Name).ThenBy(r => r.Name);
             //here you can edit the amount of results per page
-            int pageSize = 50;
             return View("Index", PaginatedList<CircuitsDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
 

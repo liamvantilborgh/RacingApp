@@ -21,21 +21,53 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index(string searchStringSeason, string searchStringName, int? pageNumber)
+        public IActionResult Index(string searchStringSeason, string currentFilter, string searchStringName, int? pageNumber, int currentSize, int? customSize)
         {
             //so it knows what i'm trying to filter 
             ViewData["CurrentFilterSeason"] = searchStringSeason;
             ViewData["CurrentFilterName"] = searchStringName;
+            ViewData["CurrentPageSize"] = customSize;
+
+            //to make sure the standard pagesize is 50
+            int pageSize = 50;
+            if (currentSize == 0)
+            {
+                currentSize = pageSize;
+            }
 
             //get all the races
             string json = _client.DownloadString("races");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<RacesDTO>>(json);
 
             //reset page number to 1 when you filter a row
-            if (searchStringName != null || searchStringSeason != null)
+            if (searchStringSeason != null)
             {
                 pageNumber = 1;
             }
+            else
+            {
+                searchStringName = currentFilter;
+            }
+            if (searchStringSeason != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchStringSeason = currentFilter;
+            }
+            //remembers custom page size when switch pages
+            if (customSize != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                customSize = currentSize;
+            }
+
+            ViewData["Currentsize"] = customSize;
+            ViewData["CurrentFilter"] = currentFilter;
 
             //the actual filtering
             if (!String.IsNullOrEmpty(searchStringSeason))
@@ -46,11 +78,14 @@ namespace RacingApp.UI.Controllers
             {
                 result = result.Where(s => s.Name.ToLower().Contains(searchStringName.ToLower()));
             }
-            
+            if (customSize.HasValue)
+            {
+                pageSize = (int)customSize;
+            }
+
             result = result.OrderBy(r => r.Startdate);
 
             //here you can edit the amount of results per page
-            int pageSize = 50;
             return View("Index", PaginatedList<RacesDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
 
@@ -86,16 +121,40 @@ namespace RacingApp.UI.Controllers
             return Redirect("Index");
         }
 
-        public IActionResult Details(int id, string searchString, int? pageNumber)
+        public IActionResult Details(int id, string searchString, int? pageNumber, int currentSize, int? customSize)
         {
+            ViewData["CurrentPageSize"] = customSize;
+            //to make sure the standard pagesize is 50
+            int pageSize = 50;
+            if (currentSize == 0)
+            {
+                currentSize = pageSize;
+            }
+
             string json = _client.DownloadString("races/" + id);
             var result = (new JavaScriptSerializer()).Deserialize<RacesDTO>(json);
 
+            //remembers custom page size when switch pages
+            if (customSize != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                customSize = currentSize;
+            }
+
+            ViewData["Currentsize"] = customSize;
             //so it knows what i'm trying to filter, here I filter on teams that are connected to a certain race
             ViewData["CurrentFilter"] = searchString;
 
             string json2 = _client.DownloadString("pilotraceteam/GetTeamsByRaceId/" + id);
             var pilotRaceTeams = new JavaScriptSerializer().Deserialize<IEnumerable<PilotRaceTeamDTO>>(json2);
+
+            if (customSize.HasValue)
+            {
+                pageSize = (int)customSize;
+            }
 
             //reset page number to 1 when you filter a row
             if (searchString != null)
@@ -111,7 +170,6 @@ namespace RacingApp.UI.Controllers
 
             pilotRaceTeams = pilotRaceTeams.OrderBy(r => r.Team.Name).ThenBy(r => r.Pilot.Name);
 
-            int pageSize = 50;
             PilotRaceTeamModel pilotRaceTeamModel = new PilotRaceTeamModel(result, PaginatedList<PilotRaceTeamDTO>.CreateAsync(pilotRaceTeams.AsQueryable(), pageNumber ?? 1, pageSize));
 
             return View("Details", pilotRaceTeamModel);

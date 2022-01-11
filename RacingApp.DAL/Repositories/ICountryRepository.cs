@@ -9,5 +9,6 @@ namespace RacingApp.DAL.Repositories
 {
     public interface ICountryRepository : IRepository<Country>
     {
+        public void DeleteWithStoredProcedure(int id);
     }
 }

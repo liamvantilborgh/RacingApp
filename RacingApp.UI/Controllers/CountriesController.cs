@@ -20,11 +20,37 @@ namespace RacingApp.UI.Controllers
             GetWebClient();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? pageNumber, int currentSize, int? customSize)
         {
+            ViewData["CurrentPageSize"] = customSize;
+
+            //to make sure the standard pagesize is 50
+            int pageSize = 50;
+            if (currentSize == 0)
+            {
+                currentSize = pageSize;
+            }
+
+            //remembers custom page size when switch pages
+            if (customSize != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                customSize = currentSize;
+            }
+
+            ViewData["Currentsize"] = customSize;
+
+            if (customSize.HasValue)
+            {
+                pageSize = (int)customSize;
+            }
+
             string json = _client.DownloadString("countries");
             var result = (new JavaScriptSerializer()).Deserialize<IEnumerable<CountryDTO>>(json);
-            return View("Index", result);
+            return View("Index", PaginatedList<CountryDTO>.CreateAsync(result.AsQueryable(), pageNumber ?? 1, pageSize));
         }
 
         public IActionResult Create()

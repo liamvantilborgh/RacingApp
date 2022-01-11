@@ -3,10 +3,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RacingApp.DAL.Migrations
 {
-    public partial class seriesdate : Migration
+    public partial class final : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            var sp = @"CREATE PROCEDURE [dbo].[DeleteCountry]
+	                        @Id int
+                       AS
+                       BEGIN
+	                        SET NOCOUNT ON;
+
+                        DELETE FROM [dbo].[Country] WHERE [Id] = @Id
+                        END";
+
+            migrationBuilder.Sql(sp);
+
             migrationBuilder.CreateTable(
                 name: "Country",
                 columns: table => new
