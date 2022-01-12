@@ -97,6 +97,9 @@ namespace RacingApp.UI.Controllers
                 customSize = currentSize;
             }
 
+            ViewData["Currentsize"] = customSize;
+            ViewData["CurrentFilter"] = currentFilter;
+
             //the actual filtering
             if (!String.IsNullOrEmpty(searchStringSerie))
             {
