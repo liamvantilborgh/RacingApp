@@ -37,12 +37,25 @@ namespace RacingApp.BLL
 
         public void Add(SeriesDTO series)
         {
+            var seriesToChange = _unitOfWork.Series.GetAll().OrderBy(s => s.Sort_Order); 
             if (series.Name != null)
             {
                 if (series.Enddate != null)
                 {
                     if (series.Startdate < series.Enddate)
                     {
+                        //updates sort order
+                        var sortOrder = series.Sort_Order;
+                        foreach (var item in seriesToChange)
+                        {
+                            if (sortOrder == item.Sort_Order)
+                            {
+                                item.Sort_Order++;
+                                _unitOfWork.Series.Update(item);
+                                _unitOfWork.CommitAsync();
+                                sortOrder = item.Sort_Order;
+                            }
+                        }
                         _unitOfWork.Series.AddAsync(_mapper.Map<SeriesDTO, Series>(series));
                         _unitOfWork.CommitAsync();
                     }
@@ -58,6 +71,18 @@ namespace RacingApp.BLL
                     {
                         series.Active = false;
                     }
+                    //updates sort order
+                    var sortOrder = series.Sort_Order;
+                    foreach (var item in seriesToChange)
+                    {
+                        if (sortOrder == item.Sort_Order)
+                        {
+                            item.Sort_Order++;
+                            _unitOfWork.Series.Update(item);
+                            _unitOfWork.CommitAsync();
+                            sortOrder = item.Sort_Order;
+                        }
+                    }
                     _unitOfWork.Series.AddAsync(_mapper.Map<SeriesDTO, Series>(series));
                     _unitOfWork.CommitAsync();
                 }                       
@@ -67,6 +92,8 @@ namespace RacingApp.BLL
 
         public void Update(int id, SeriesDTO series)
         {
+            var seriesToChange = _unitOfWork.Series.GetAll().OrderBy(s => s.Sort_Order); 
+            
             if (series.Name != null)
             {
                 var seriesToUpdate = _unitOfWork.Series.GetById(id);
@@ -76,6 +103,23 @@ namespace RacingApp.BLL
                     seriesToUpdate.Active = series.Active;
                     seriesToUpdate.Sort_Order = (int)series.Sort_Order;
                     seriesToUpdate.Startdate = series.Startdate;
+
+                    var sortOrder = (int)series.Sort_Order;
+                    //update sort order
+                    foreach (var item in seriesToChange)
+                    {
+                        if(item.Id != id)
+                        {
+                           if (sortOrder == item.Sort_Order)
+                           {
+                                item.Sort_Order++;
+                                _unitOfWork.Series.Update(item);
+                                _unitOfWork.CommitAsync();
+                                sortOrder = item.Sort_Order;
+                           }
+                        }
+                    }
+
                     if (series.Enddate != null)
                     {
                         if (series.Startdate < series.Enddate)
